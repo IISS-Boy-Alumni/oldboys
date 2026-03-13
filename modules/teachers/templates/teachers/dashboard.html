@@ -1,0 +1,80 @@
+{% extends 'shopyo_dashboard/dashboard_base.html' %}
+
+{% block title %}Teachers & Tributes Moderation{% endblock %}
+
+{% block content %}
+<div class="space-y-12">
+    <!-- Header -->
+    <div class="flex flex-col md:flex-row justify-between items-center gap-4 border-b border-slate-100 dark:border-slate-800 pb-8">
+        <div>
+            <h1 class="text-3xl font-black text-secondary tracking-tight uppercase">Legacy Moderation</h1>
+            <p class="text-slate-500 dark:text-slate-400 font-medium text-xs uppercase tracking-widest mt-1">Manage tributes and teacher profiles</p>
+        </div>
+    </div>
+
+    <!-- Pending Tributes -->
+    <div class="space-y-6">
+        <div class="flex items-center gap-3">
+            <h2 class="text-xl font-black text-secondary uppercase tracking-tight">Pending Tributes</h2>
+            <span class="px-2 py-0.5 rounded-md bg-amber-50 dark:bg-amber-900/20 text-amber-600 text-[10px] font-bold uppercase tracking-widest">{{ pending_tributes|length }}</span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {% for tribute in pending_tributes %}
+            <div class="bg-white dark:bg-slate-900 p-8 rounded-[2rem] border border-amber-100 dark:border-amber-900/30 shadow-sm relative group animate-in fade-in slide-in-from-top-2">
+                <div class="mb-6">
+                    <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">To: <span class="text-secondary dark:text-white">{{ tribute.teacher.name }}</span></p>
+                    <div class="text-sm font-amiri leading-relaxed text-slate-600 dark:text-slate-300 italic">"{{ tribute.message }}"</div>
+                </div>
+                
+                <div class="flex items-center justify-between pt-6 border-t border-slate-50 dark:border-slate-800">
+                    <div>
+                        <h4 class="font-black text-secondary dark:text-white uppercase text-[9px] tracking-widest">{{ tribute.alumni_name }}</h4>
+                        <p class="text-[8px] font-bold text-primary uppercase tracking-widest">Class of {{ tribute.graduation_year }}</p>
+                    </div>
+                    <div class="flex gap-2">
+                        <form action="{{ url_for('teachers.approve_tribute', tribute_id=tribute.id) }}" method="POST">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                            <button type="submit" class="px-4 py-2 rounded-xl bg-emerald-500 text-white text-[9px] font-black uppercase tracking-widest hover:bg-emerald-600 transition-all shadow-lg shadow-emerald-500/20">Approve</button>
+                        </form>
+                        <form action="{{ url_for('teachers.delete_tribute', tribute_id=tribute.id) }}" method="POST" onsubmit="return confirm('Reject and delete this tribute?')">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                            <button type="submit" class="px-4 py-2 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-500 text-[9px] font-black uppercase tracking-widest hover:bg-rose-500 hover:text-white transition-all">Reject</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            {% else %}
+            <div class="col-span-full py-12 text-center bg-slate-50 dark:bg-slate-800/50 rounded-[2rem] border-2 border-dashed border-slate-200 dark:border-slate-700">
+                <p class="text-xs font-bold text-slate-400 uppercase tracking-widest italic">No pending tributes.</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Quick Stats -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-12 pt-12 border-t border-slate-100 dark:border-slate-800">
+        <div class="space-y-6">
+            <h2 class="text-xl font-black text-secondary uppercase tracking-tight">Active Profiles</h2>
+            <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl overflow-hidden shadow-sm">
+                <table class="w-full text-left">
+                    <thead>
+                        <tr class="bg-slate-50/50 dark:bg-slate-800/50 border-b border-slate-100 dark:border-slate-800 text-[9px] font-black text-slate-400 uppercase tracking-widest">
+                            <th class="px-6 py-3">Name</th>
+                            <th class="px-6 py-3">Tributes</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-100 dark:divide-slate-800">
+                        {% for teacher in teachers %}
+                        <tr>
+                            <td class="px-6 py-4 text-xs font-bold text-secondary dark:text-white">{{ teacher.name }}</td>
+                            <td class="px-6 py-4 text-[10px] font-black text-primary uppercase">{{ teacher.tributes|length }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

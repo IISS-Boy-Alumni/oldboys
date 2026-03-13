@@ -1,0 +1,64 @@
+{% extends 'shopyo_dashboard/dashboard_base.html' %}
+
+{% block title %}Alumni Management{% endblock %}
+
+{% block content %}
+<div class="space-y-8">
+    <!-- Header -->
+    <div class="flex flex-col md:flex-row justify-between items-center gap-4 border-b border-slate-100 dark:border-slate-800 pb-8">
+        <div>
+            <h1 class="text-3xl font-black text-secondary tracking-tight uppercase">Alumni Directory</h1>
+            <p class="text-slate-500 dark:text-slate-400 font-medium text-xs uppercase tracking-widest mt-1">Manage graduate profiles and map records</p>
+        </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="bg-white dark:bg-slate-900 p-8 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-sm">
+            <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Total Alumni</p>
+            <p class="text-4xl font-black text-secondary dark:text-white">{{ all_alumni|length }}</p>
+        </div>
+    </div>
+
+    <!-- Table -->
+    <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl overflow-hidden shadow-sm">
+        <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+                <thead>
+                    <tr class="bg-slate-50/50 dark:bg-slate-800/50 border-b border-slate-100 dark:border-slate-800">
+                        <th class="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Name</th>
+                        <th class="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Class</th>
+                        <th class="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Profession</th>
+                        <th class="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Location</th>
+                        <th class="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] text-right">Actions</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100 dark:divide-slate-800">
+                    {% for profile in all_alumni %}
+                    <tr class="hover:bg-slate-50/50 dark:hover:bg-slate-800/30 transition-colors">
+                        <td class="px-6 py-4 font-bold text-slate-900 dark:text-white">{{ profile.name }}</td>
+                        <td class="px-6 py-4 text-xs">{{ profile.graduation_year }}</td>
+                        <td class="px-6 py-4 text-xs text-slate-500">{{ profile.profession }}</td>
+                        <td class="px-6 py-4 text-xs">
+                            {% if profile.lat and profile.lon %}
+                            <span class="text-emerald-500 font-bold uppercase tracking-widest text-[9px] px-2 py-1 bg-emerald-50 dark:bg-emerald-900/20 rounded-md">Mapped</span>
+                            {% else %}
+                            <span class="text-slate-400 font-bold uppercase tracking-widest text-[9px]">No Geo Data</span>
+                            {% endif %}
+                        </td>
+                        <td class="px-6 py-4 text-right">
+                            <form action="{{ url_for('alumni.delete_profile', alumni_id=profile.id) }}" method="POST" onsubmit="return confirm('Remove this profile?')">
+                                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                <button type="submit" class="p-2 rounded-lg bg-rose-50 dark:bg-rose-900/20 text-rose-600 hover:bg-rose-600 hover:text-white transition-all border border-rose-100/50 dark:border-rose-800/50">
+                                    <i class="fas fa-trash-alt text-[10px]"></i>
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

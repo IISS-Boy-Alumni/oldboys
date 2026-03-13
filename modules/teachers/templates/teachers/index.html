@@ -1,0 +1,75 @@
+{% extends 'oldboys/base.html' %}
+
+{% block title %}Teachers' Tribute & Legacy{% endblock %}
+
+{% block body %}
+<section class="bg-parchment py-20 min-h-screen">
+    <div class="max-w-7xl mx-auto px-4">
+        <!-- Header -->
+        <div class="mb-16 text-center space-y-6">
+            <h1 class="text-6xl font-black text-secondary uppercase tracking-tight">Teachers' <span class="text-primary italic">Legacy</span></h1>
+            <p class="text-slate-500 font-amiri text-xl max-w-3xl mx-auto">
+                Honoring the educators who shaped our minds and hearts. Explore their profiles and leave a tribute to those who made a difference.
+            </p>
+            
+            <!-- Search Bar -->
+            <form method="GET" class="max-w-xl mx-auto relative group">
+                <input type="text" name="search" value="{{ search }}" placeholder="Search by teacher name..." 
+                       class="w-full bg-white border-2 border-primary/20 rounded-full py-5 px-8 pr-16 text-sm focus:ring-8 focus:ring-primary/5 focus:border-primary transition-all outline-none font-bold text-secondary shadow-lg">
+                <button type="submit" class="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-secondary text-primary rounded-full flex items-center justify-center hover:bg-primary hover:text-secondary transition-all">
+                    <i class="fas fa-search"></i>
+                </button>
+            </form>
+        </div>
+
+        <!-- Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
+            {% for teacher in teachers %}
+            <a href="{{ url_for('teachers.profile', slug=teacher.slug) }}" class="group bg-white rounded-[3rem] overflow-hidden shadow-xl hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 border border-slate-100 flex flex-col">
+                <div class="aspect-[4/5] overflow-hidden relative">
+                    {% if teacher.photo_url %}
+                    <img src="{{ teacher.photo_url }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                    {% else %}
+                    <div class="w-full h-full bg-secondary flex items-center justify-center text-primary/20">
+                        <i class="fas fa-user-tie text-8xl"></i>
+                    </div>
+                    {% endif %}
+                    
+                    <div class="absolute inset-0 bg-gradient-to-t from-secondary via-transparent to-transparent opacity-60"></div>
+                    
+                    <div class="absolute bottom-8 left-8 right-8">
+                        <span class="px-4 py-1 rounded-full bg-primary/20 text-primary text-[10px] font-black uppercase tracking-widest border border-primary/30 backdrop-blur-md mb-3 inline-block">
+                            {{ teacher.years_active }}
+                        </span>
+                        <h3 class="text-3xl font-black text-white uppercase leading-tight">{{ teacher.name }}</h3>
+                    </div>
+                </div>
+                <div class="p-8 flex-1 flex flex-col justify-between">
+                    <p class="text-slate-400 font-bold text-[10px] uppercase tracking-[0.2em] mb-4">Subjects: <span class="text-secondary">{{ teacher.subjects }}</span></p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-[10px] font-black text-primary uppercase tracking-widest">View Legacy <i class="fas fa-chevron-right ml-1"></i></span>
+                        <div class="flex -space-x-2">
+                            {% for tribute in teacher.tributes[:3] %}
+                            <div class="w-8 h-8 rounded-full bg-parchment border-2 border-white flex items-center justify-center text-[10px] font-black text-secondary shadow-sm">
+                                {{ tribute.alumni_name[0] }}
+                            </div>
+                            {% endfor %}
+                            {% if teacher.tributes|length > 3 %}
+                            <div class="w-8 h-8 rounded-full bg-primary border-2 border-white flex items-center justify-center text-[8px] font-black text-secondary shadow-sm">
+                                +{{ teacher.tributes|length - 3 }}
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </a>
+            {% else %}
+            <div class="col-span-full py-32 text-center bg-white rounded-[3rem] border-2 border-dashed border-primary/20">
+                <i class="fas fa-chalkboard-teacher text-6xl text-slate-200 mb-6"></i>
+                <p class="text-xl font-bold text-slate-400 uppercase tracking-widest">No teacher profiles found.</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}

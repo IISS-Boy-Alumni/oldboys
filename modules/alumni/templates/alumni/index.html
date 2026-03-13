@@ -1,0 +1,79 @@
+{% extends 'oldboys/base.html' %}
+
+{% block title %}Alumni Map - Where Are They Now?{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<style>
+    #map { height: 70vh; border-radius: 2rem; border: 4px solid #D4AF37; box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.25); }
+    .leaflet-popup-content-wrapper { border-radius: 1rem; font-family: 'Amiri', serif; }
+    .leaflet-popup-tip { background: #D4AF37; }
+</style>
+{% endblock %}
+
+{% block body %}
+<section class="bg-parchment py-20">
+    <div class="max-w-7xl mx-auto px-4">
+        <div class="mb-16 text-center">
+            <h1 class="text-5xl font-black text-secondary uppercase tracking-tight mb-4">Where Are They <span class="text-primary italic">Now?</span></h1>
+            <p class="text-slate-500 font-amiri text-lg max-w-2xl mx-auto">
+                Explore the global footprint of our graduates. From community leaders to industry pioneers, our Old Boys are making their mark across the world.
+            </p>
+        </div>
+
+        <div id="map" class="mb-12"></div>
+
+        <div class="flex flex-col md:flex-row gap-6">
+            <div class="flex-1 bg-white rounded-3xl p-8 border border-slate-100 shadow-xl">
+                <div class="flex items-center gap-4 text-secondary">
+                    <i class="fas fa-info-circle text-primary text-xl"></i>
+                    <p class="text-sm font-bold uppercase tracking-widest text-slate-500">Click on a pin to see alumni details. New profiles are added daily.</p>
+                </div>
+            </div>
+            
+            {% if current_user.is_authenticated %}
+            <a href="{{ url_for('alumni.portal') }}" class="flex items-center justify-center gap-3 px-10 py-6 bg-secondary text-primary rounded-3xl font-black uppercase tracking-widest hover:bg-primary hover:text-secondary transition-all shadow-xl group">
+                <i class="fas fa-user-edit"></i>
+                Update My Profile
+                <i class="fas fa-arrow-right group-hover:translate-x-2 transition-transform"></i>
+            </a>
+            {% endif %}
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const map = L.map('map').setView([20, 0], 2);
+
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+            subdomains: 'abcd',
+            maxZoom: 20
+        }).addTo(map);
+
+        fetch('/alumni/data')
+            .then(response => response.json())
+            .then(data => {
+                data.forEach(alumnus => {
+                    if (alumnus.lat && alumnus.lon) {
+                        const marker = L.marker([alumnus.lat, alumnus.lon]).addTo(map);
+                        marker.bindPopup(`
+                            <div class="p-2">
+                                <h3 class="text-lg font-black text-secondary uppercase mb-1">${alumnus.name}</h3>
+                                <p class="text-primary font-bold text-xs uppercase tracking-widest mb-2">Class of ${alumnus.year}</p>
+                                <div class="text-sm text-slate-600">
+                                    <p><strong>Location:</strong> ${alumnus.city}</p>
+                                    <p><strong>Profession:</strong> ${alumnus.profession}</p>
+                                </div>
+                            </div>
+                        `);
+                    }
+                });
+            });
+    });
+</script>
+{% endblock %}

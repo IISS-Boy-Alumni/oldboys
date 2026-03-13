@@ -1,0 +1,15 @@
+{
+    "admin_user": {
+      "email": "admin@domain.com",
+      "password": "pass"
+    },
+    "settings": {
+      "APP_NAME": "PythonCMS",
+      "ACTIVE_FRONT_THEME": "editorial",
+      "ACTIVE_BACK_THEME": "sneat",
+      "SITE_TITLE": "My site",
+      "SITE_DESCRIPTION": "description",
+      "CURRENCY": "MUR",
+      "ACTIVE_ICONSET": "boxicons"
+    }
+}

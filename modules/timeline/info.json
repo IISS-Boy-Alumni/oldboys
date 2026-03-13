@@ -1,0 +1,12 @@
+{
+    "display_string": "Timeline",
+    "module_name": "timeline",
+    "type": "show",
+    "fa-icon": "fas fa-history",
+    "url_prefix": "/timeline",
+    "author": {
+        "name": "PythonCMS",
+        "website": "",
+        "mail": ""
+    }
+}

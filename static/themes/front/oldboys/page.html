@@ -1,0 +1,30 @@
+{% extends 'oldboys/base.html' %}
+
+{% block title %}{{ page.title }}{% endblock %}
+
+{% block body %}
+<article class="bg-parchment min-h-screen">
+    <!-- Page Header -->
+    <header class="bg-secondary py-24 relative overflow-hidden">
+        <div class="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/arabesque.png')]"></div>
+        <div class="max-w-4xl mx-auto px-4 relative text-center">
+            <h1 class="text-5xl md:text-7xl font-black text-white uppercase tracking-tight mb-4">{{ page.title }}</h1>
+            <div class="w-24 h-1 bg-primary mx-auto rounded-full"></div>
+        </div>
+    </header>
+
+    <!-- Page Content -->
+    <div class="max-w-4xl mx-auto px-4 py-20">
+        <div class="bg-white rounded-[2.5rem] p-12 md:p-20 shadow-2xl border border-slate-100 relative">
+            <!-- Decorative Arch -->
+            <div class="absolute -top-10 left-1/2 -translate-x-1/2 w-20 h-20 bg-primary rounded-full border-8 border-parchment flex items-center justify-center text-secondary text-2xl shadow-xl">
+                <i class="fas fa-mosque"></i>
+            </div>
+            
+            <div class="prose prose-slate prose-lg max-w-none font-amiri leading-relaxed text-schooltext">
+                {{ page.get_content() | safe }}
+            </div>
+        </div>
+    </div>
+</article>
+{% endblock %}

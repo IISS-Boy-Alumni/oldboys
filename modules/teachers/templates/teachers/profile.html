@@ -1,0 +1,123 @@
+{% extends 'oldboys/base.html' %}
+
+{% block title %}{{ teacher.name }} - Tribute & Legacy{% endblock %}
+
+{% block body %}
+<section class="bg-parchment py-20 min-h-screen">
+    <div class="max-w-7xl mx-auto px-4">
+        <!-- Breadcrumbs -->
+        <nav class="flex items-center gap-3 mb-12">
+            <a href="{{ url_for('teachers.index') }}" class="text-[10px] font-black text-primary uppercase tracking-[0.2em] hover:opacity-70 transition-opacity">Teachers Legacy</a>
+            <i class="fas fa-chevron-right text-[8px] text-slate-300"></i>
+            <span class="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">{{ teacher.name }}</span>
+        </nav>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-16">
+            <!-- Left: Profile Info -->
+            <div class="space-y-8">
+                <div class="bg-white rounded-[3rem] overflow-hidden shadow-2xl border border-slate-100 relative">
+                    <div class="aspect-square relative overflow-hidden">
+                        {% if teacher.photo_url %}
+                        <img src="{{ teacher.photo_url }}" class="w-full h-full object-cover">
+                        {% else %}
+                        <div class="w-full h-full bg-secondary flex items-center justify-center text-primary/20">
+                            <i class="fas fa-user-tie text-9xl"></i>
+                        </div>
+                        {% endif %}
+                        <div class="absolute inset-0 bg-gradient-to-t from-secondary via-transparent to-transparent opacity-40"></div>
+                    </div>
+                    <div class="p-10 text-center space-y-4">
+                        <span class="px-6 py-2 rounded-full bg-primary/10 text-primary text-xs font-black uppercase tracking-widest border border-primary/20 inline-block">
+                            {{ teacher.years_active }}
+                        </span>
+                        <h1 class="text-4xl font-black text-secondary uppercase tracking-tight">{{ teacher.name }}</h1>
+                        <p class="text-slate-400 font-bold text-xs uppercase tracking-widest">{{ teacher.subjects }}</p>
+                        
+                        {% if teacher.legacy_quote %}
+                        <div class="pt-8 border-t border-slate-50 relative">
+                            <i class="fas fa-quote-left text-primary/20 text-4xl absolute -top-4 left-1/2 -translate-x-1/2"></i>
+                            <p class="font-amiri italic text-slate-600 text-lg leading-relaxed">"{{ teacher.legacy_quote }}"</p>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Tribute Form Trigger (Mobile) -->
+                <a href="#tribute-form" class="lg:hidden block w-full bg-primary text-secondary text-center font-black py-5 px-8 rounded-3xl uppercase tracking-widest text-xs shadow-xl">
+                    Leave a Tribute
+                </a>
+            </div>
+
+            <!-- Right: Bio and Tributes -->
+            <div class="lg:col-span-2 space-y-16">
+                <!-- Biography -->
+                <div class="bg-white rounded-[3rem] p-12 md:p-16 shadow-xl border border-slate-100 relative overflow-hidden">
+                    <div class="absolute top-0 right-0 w-40 h-40 bg-primary/5 rounded-bl-full"></div>
+                    <h2 class="text-3xl font-black text-secondary uppercase mb-8 border-b-2 border-primary/20 pb-4 inline-block tracking-tight">Biography</h2>
+                    <div class="prose prose-slate prose-lg max-w-none font-amiri leading-relaxed text-slate-600">
+                        {{ teacher.bio | safe }}
+                    </div>
+                </div>
+
+                <!-- Tributes Wall -->
+                <div class="space-y-12">
+                    <div class="flex items-center justify-between border-b border-primary/20 pb-6">
+                        <h2 class="text-3xl font-black text-secondary uppercase tracking-tight">Tribute <span class="text-primary italic">Wall</span></h2>
+                        <span class="text-xs font-black text-slate-400 uppercase tracking-widest">{{ tributes|length }} Messages</span>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        {% for tribute in tributes %}
+                        <div class="bg-white p-8 rounded-[2.5rem] shadow-lg border border-slate-50 relative group">
+                            <i class="fas fa-heart text-rose-500/10 text-6xl absolute top-6 right-8 group-hover:scale-110 transition-transform"></i>
+                            <div class="relative space-y-4">
+                                <div class="text-sm font-amiri leading-relaxed text-slate-600 italic">"{{ tribute.message }}"</div>
+                                <div class="pt-4 border-t border-slate-50 flex justify-between items-center">
+                                    <div>
+                                        <h4 class="font-black text-secondary uppercase text-[10px] tracking-widest">{{ tribute.alumni_name }}</h4>
+                                        <p class="text-[9px] font-bold text-primary uppercase tracking-widest">Class of {{ tribute.graduation_year }}</p>
+                                    </div>
+                                    <span class="text-[8px] font-bold text-slate-300 uppercase">{{ tribute.date_posted.strftime('%b %Y') }}</span>
+                                </div>
+                            </div>
+                        </div>
+                        {% else %}
+                        <div class="col-span-full py-20 text-center bg-slate-50 rounded-[2.5rem] border-2 border-dashed border-slate-200">
+                            <p class="text-xs font-bold text-slate-400 uppercase tracking-widest italic">Be the first to leave a tribute.</p>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!-- Tribute Form -->
+                <div id="tribute-form" class="bg-secondary rounded-[3.5rem] p-12 md:p-16 text-white shadow-2xl relative overflow-hidden">
+                    <div class="absolute inset-0 opacity-5 bg-[url('https://www.transparenttextures.com/patterns/arabesque.png')]"></div>
+                    <div class="relative space-y-10">
+                        <div>
+                            <h2 class="text-4xl font-black uppercase tracking-tight">Leave a <span class="text-primary italic">Tribute</span></h2>
+                            <p class="text-primary/60 text-xs font-bold uppercase tracking-widest mt-2">Share your memories of {{ teacher.name }}</p>
+                        </div>
+
+                        <form action="{{ url_for('teachers.submit_tribute', slug=teacher.slug) }}" method="POST" class="space-y-6">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <input type="text" name="alumni_name" placeholder="Your Full Name" required
+                                       class="bg-white/10 border border-white/20 rounded-2xl py-4 px-6 text-sm focus:ring-4 focus:ring-primary/20 transition-all outline-none font-bold placeholder:text-white/30">
+                                <input type="number" name="graduation_year" placeholder="Graduation Year" required
+                                       class="bg-white/10 border border-white/20 rounded-2xl py-4 px-6 text-sm focus:ring-4 focus:ring-primary/20 transition-all outline-none font-bold placeholder:text-white/30">
+                            </div>
+                            <textarea name="message" rows="5" placeholder="Write your tribute here..." required
+                                      class="w-full bg-white/10 border border-white/20 rounded-2xl py-4 px-6 text-sm focus:ring-4 focus:ring-primary/20 transition-all outline-none font-amiri placeholder:text-white/30"></textarea>
+                            
+                            <button type="submit" class="w-full bg-primary text-secondary font-black py-5 px-8 rounded-2xl hover:bg-white hover:scale-105 transition-all shadow-xl uppercase tracking-widest text-xs">
+                                Post to Legacy Wall
+                            </button>
+                            <p class="text-[9px] text-center text-white/40 uppercase tracking-widest">Note: All tributes are moderated before being displayed.</p>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

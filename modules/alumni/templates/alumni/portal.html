@@ -1,0 +1,88 @@
+{% extends 'oldboys/base.html' %}
+
+{% block title %}Alumni Portal{% endblock %}
+
+{% block body %}
+<section class="bg-parchment py-20 min-h-screen">
+    <div class="max-w-4xl mx-auto px-4">
+        <!-- Header -->
+        <div class="flex items-center justify-between mb-12 border-b border-primary/20 pb-8">
+            <div>
+                <h1 class="text-4xl font-black text-secondary uppercase tracking-tight">Alumni <span class="text-primary italic">Portal</span></h1>
+                <p class="text-slate-500 font-amiri text-lg">Manage your global profile and location</p>
+            </div>
+            <div class="flex items-center gap-4">
+                <div class="w-12 h-12 rounded-full bg-secondary flex items-center justify-center text-primary font-black border-2 border-primary">
+                    {{ current_user.email[0]|upper }}
+                </div>
+            </div>
+        </div>
+
+        <!-- Form Card -->
+        <div class="bg-white rounded-[2.5rem] p-10 md:p-16 shadow-2xl border border-slate-100 relative overflow-hidden">
+            <div class="absolute top-0 right-0 w-40 h-40 bg-primary/5 rounded-bl-full"></div>
+            
+            <form method="POST" class="space-y-8 relative">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="space-y-2">
+                        <label class="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-2">Public Name</label>
+                        <input type="text" name="name" value="{{ alumni_record.name if alumni_record else '' }}" required
+                               class="w-full bg-slate-50 border border-slate-100 rounded-2xl py-4 px-6 text-sm focus:ring-4 focus:ring-primary/10 focus:border-primary transition-all outline-none font-bold">
+                    </div>
+                    <div class="space-y-2">
+                        <label class="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-2">Graduation Year</label>
+                        <input type="number" name="graduation_year" value="{{ alumni_record.graduation_year if alumni_record else '' }}" required
+                               class="w-full bg-slate-50 border border-slate-100 rounded-2xl py-4 px-6 text-sm focus:ring-4 focus:ring-primary/10 focus:border-primary transition-all outline-none font-bold">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="space-y-2">
+                        <label class="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-2">Current City</label>
+                        <input type="text" name="current_city" value="{{ alumni_record.current_city if alumni_record else '' }}" required
+                               class="w-full bg-slate-50 border border-slate-100 rounded-2xl py-4 px-6 text-sm focus:ring-4 focus:ring-primary/10 focus:border-primary transition-all outline-none font-bold">
+                    </div>
+                    <div class="space-y-2">
+                        <label class="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-2">Profession</label>
+                        <input type="text" name="profession" value="{{ alumni_record.profession if alumni_record else '' }}" required
+                               class="w-full bg-slate-50 border border-slate-100 rounded-2xl py-4 px-6 text-sm focus:ring-4 focus:ring-primary/10 focus:border-primary transition-all outline-none font-bold">
+                    </div>
+                </div>
+
+                <div class="bg-secondary/5 rounded-3xl p-8 border-2 border-dashed border-primary/20 space-y-6">
+                    <div class="flex items-center gap-3">
+                        <i class="fas fa-map-marker-alt text-primary"></i>
+                        <h4 class="text-xs font-black text-secondary uppercase tracking-widest">Map Coordinates</h4>
+                    </div>
+                    <p class="text-[10px] text-slate-400 uppercase tracking-widest leading-relaxed">
+                        Find your coordinates on Google Maps (Right click > Copy Coordinates) or any GPS tool.
+                    </p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div class="space-y-2">
+                            <label class="text-[9px] font-bold text-slate-400 uppercase tracking-widest ml-2">Latitude</label>
+                            <input type="text" name="lat" value="{{ alumni_record.lat if alumni_record else '' }}" required
+                                   class="w-full bg-white border border-slate-100 rounded-xl py-3 px-4 text-xs focus:ring-2 focus:ring-primary/20 outline-none font-bold">
+                        </div>
+                        <div class="space-y-2">
+                            <label class="text-[9px] font-bold text-slate-400 uppercase tracking-widest ml-2">Longitude</label>
+                            <input type="text" name="lon" value="{{ alumni_record.lon if alumni_record else '' }}" required
+                                   class="w-full bg-white border border-slate-100 rounded-xl py-3 px-4 text-xs focus:ring-2 focus:ring-primary/20 outline-none font-bold">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pt-4 flex flex-col md:flex-row gap-4">
+                    <button type="submit" class="flex-1 bg-primary text-secondary font-black py-5 px-8 rounded-2xl hover:bg-secondary hover:text-white transition-all shadow-xl shadow-primary/20 uppercase tracking-[0.2em] text-xs">
+                        Update My Profile
+                    </button>
+                    <a href="{{ url_for('alumni.index') }}" class="px-8 py-5 bg-slate-100 rounded-2xl text-slate-500 font-black uppercase tracking-widest text-xs hover:bg-slate-200 transition-all text-center">
+                        View Map
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+{% endblock %}
