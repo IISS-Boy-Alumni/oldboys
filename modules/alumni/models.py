@@ -8,9 +8,8 @@ class Alumni(PkModel):
     name = db.Column(db.String(128))
     graduation_year = db.Column(db.Integer)
     current_city = db.Column(db.String(128))
+    country = db.Column(db.String(128))
     profession = db.Column(db.String(128))
-    lat = db.Column(db.String(50))
-    lon = db.Column(db.String(50))
     bio = db.Column(db.Text)
     
     user = db.relationship("User", backref=db.backref("alumni_profile", uselist=False))

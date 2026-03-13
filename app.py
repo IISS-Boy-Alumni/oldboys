@@ -79,6 +79,21 @@ def create_app(config_name="development"):
 
     sh_base = ShopyoBase()
     sh_auth = ShopyoAuth()
+
+    @sh_auth.on("user_login")
+    def on_login(user):
+        from flask import flash
+        from shopyo.api.html import notify_success
+        flash(notify_success("Successfully logged in"))
+
+    def login_redirect(user):
+        from flask import url_for
+        if user.is_admin:
+            return url_for("shopyo_dashboard.index")
+        return url_for("www.index")
+
+    sh_auth.login_redirect_url = login_redirect
+
     sh_appadmin = ShopyoAppAdmin()
     sh_dashboard = ShopyoDashboard()
     sh_page = ShopyoPage()

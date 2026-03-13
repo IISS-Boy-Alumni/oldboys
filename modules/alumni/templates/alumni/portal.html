@@ -69,22 +69,22 @@
                     
                     <div class="relative z-10">
                         <div class="flex items-center gap-4 text-primary">
-                            <i class="fas fa-map-marked-alt text-2xl"></i>
-                            <h4 class="text-sm font-black uppercase tracking-[0.2em]">Geographic Location</h4>
+                            <i class="fas fa-globe-americas text-2xl"></i>
+                            <h4 class="text-sm font-black uppercase tracking-[0.2em]">Global Presence</h4>
                         </div>
                         <p class="text-[10px] text-white/40 uppercase tracking-[0.2em] leading-relaxed mt-4 font-black">
-                            Find your coordinates on Google Maps (Right click > Copy Coordinates) or any GPS tool.
+                            Enter your country to be visualized on our global alumni map.
                         </p>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-10">
+                        <div class="mt-10">
                             <div class="space-y-3">
-                                <label class="text-[10px] font-black text-primary/60 uppercase tracking-widest ml-6">Latitude</label>
-                                <input type="text" name="lat" value="{{ alumni_record.lat if alumni_record else '' }}" required
-                                       class="w-full bg-white/5 border-2 border-white/10 rounded-2xl py-4 px-6 text-sm focus:ring-8 focus:ring-primary/10 focus:border-primary/50 transition-all outline-none font-bold text-white placeholder:text-white/20">
-                            </div>
-                            <div class="space-y-3">
-                                <label class="text-[10px] font-black text-primary/60 uppercase tracking-widest ml-6">Longitude</label>
-                                <input type="text" name="lon" value="{{ alumni_record.lon if alumni_record else '' }}" required
-                                       class="w-full bg-white/5 border-2 border-white/10 rounded-2xl py-4 px-6 text-sm focus:ring-8 focus:ring-primary/10 focus:border-primary/50 transition-all outline-none font-bold text-white placeholder:text-white/20">
+                                <label class="text-[10px] font-black text-primary/60 uppercase tracking-widest ml-6">Country</label>
+                                <select name="country" required
+                                       class="w-full bg-white/5 border-2 border-white/10 rounded-2xl py-4 px-6 text-sm focus:ring-8 focus:ring-primary/10 focus:border-primary/50 transition-all outline-none font-bold text-white [&>option]:text-secondary">
+                                    {% set current_country = alumni_record.country if alumni_record and alumni_record.country else default_country %}
+                                    {% for country in countries %}
+                                        <option value="{{ country }}" {% if country == current_country %}selected{% endif %}>{{ country }}</option>
+                                    {% endfor %}
+                                </select>
                             </div>
                         </div>
                     </div>

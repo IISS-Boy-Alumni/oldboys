@@ -1,3 +1,5 @@
+import pycountry
+from countryinfo import CountryInfo
 from shopyo.api.module import ModuleHelp
 from flask import render_template, jsonify, request, flash, redirect, url_for
 from flask_login import login_required, current_user
@@ -39,22 +41,21 @@ def delete_profile(alumni_id):
 def portal():
     # Ensure the user has an alumni profile record
     alumni_profile = Alumni.query.filter_by(user_id=current_user.id).first()
+    countries = sorted([country.name for country in pycountry.countries])
 
     if request.method == "POST":
         name = request.form.get("name")
         year = request.form.get("graduation_year")
         city = request.form.get("current_city")
+        country = request.form.get("country")
         profession = request.form.get("profession")
-        lat = request.form.get("lat")
-        lon = request.form.get("lon")
 
         if alumni_profile:
             alumni_profile.name = name
             alumni_profile.graduation_year = year
             alumni_profile.current_city = city
+            alumni_profile.country = country
             alumni_profile.profession = profession
-            alumni_profile.lat = lat
-            alumni_profile.lon = lon
             alumni_profile.update()
         else:
             new_profile = Alumni(
@@ -62,9 +63,8 @@ def portal():
                 name=name,
                 graduation_year=year,
                 current_city=city,
+                country=country,
                 profession=profession,
-                lat=lat,
-                lon=lon
             )
             new_profile.insert()
         
@@ -73,22 +73,35 @@ def portal():
 
     context = mhelp.context()
     context.update({
-        "alumni_record": alumni_profile
+        "alumni_record": alumni_profile,
+        "countries": countries,
+        "default_country": "Mauritius"
     })
     return render_template("alumni/portal.html", **context)
 
 @alumni_blueprint.route("/data")
 def data():
-    # Fetch all alumni who have set their coordinates
-    all_alumni = Alumni.query.filter(Alumni.lat != None, Alumni.lon != None).all()
+    # Fetch all alumni
+    all_alumni = Alumni.query.all()
     alumni_data = []
     for a in all_alumni:
+        lat, lon = None, None
+        if a.country:
+            try:
+                c_info = CountryInfo(a.country)
+                latlng = c_info.latlng()
+                if latlng:
+                    lat, lon = latlng[0], latlng[1]
+            except Exception:
+                pass
+
         alumni_data.append({
             "name": a.name,
             "year": a.graduation_year,
             "city": a.current_city,
-            "lat": a.lat,
-            "lon": a.lon,
-            "profession": a.profession
+            "country": a.country,
+            "profession": a.profession,
+            "lat": lat,
+            "lon": lon
         })
     return jsonify(alumni_data)
