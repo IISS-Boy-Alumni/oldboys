@@ -3,59 +3,76 @@
 {% block title %}Teachers' Tribute & Legacy{% endblock %}
 
 {% block body %}
-<section class="bg-parchment py-20 min-h-screen">
-    <div class="max-w-7xl mx-auto px-4">
+<section class="bg-parchment py-24 min-h-screen relative bg-pattern-hexagon overflow-hidden">
+    <div class="max-w-7xl mx-auto px-4 relative z-10">
         <!-- Header -->
-        <div class="mb-16 text-center space-y-6">
-            <h1 class="text-6xl font-black text-secondary uppercase tracking-tight">Teachers' <span class="text-primary italic">Legacy</span></h1>
-            <p class="text-slate-500 font-amiri text-xl max-w-3xl mx-auto">
-                Honoring the educators who shaped our minds and hearts. Explore their profiles and leave a tribute to those who made a difference.
+        <div class="mb-24 text-center space-y-8">
+            <h1 class="text-6xl md:text-8xl font-black text-secondary uppercase tracking-tighter font-heading heading-underline pb-4">Teachers' <span class="text-primary italic">Legacy</span></h1>
+            <div class="mt-8 flex items-center justify-center gap-4 text-primary font-sans italic">
+                <span class="text-xl">✧</span>
+                <span class="text-xs font-black uppercase tracking-[0.4em]">Honoring Our Mentors</span>
+                <span class="text-xl">✧</span>
+            </div>
+            <p class="text-slate-600 font-amiri text-2xl max-w-3xl mx-auto leading-relaxed italic opacity-90 mt-10">
+                "Celebrating the educators who dedicated their lives to shaping the future of Old Boys Islamic School. Explore their journeys and leave a message of gratitude."
             </p>
             
             <!-- Search Bar -->
-            <form method="GET" class="max-w-xl mx-auto relative group">
-                <input type="text" name="search" value="{{ search }}" placeholder="Search by teacher name..." 
-                       class="w-full bg-white border-2 border-primary/20 rounded-full py-5 px-8 pr-16 text-sm focus:ring-8 focus:ring-primary/5 focus:border-primary transition-all outline-none font-bold text-secondary shadow-lg">
-                <button type="submit" class="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-secondary text-primary rounded-full flex items-center justify-center hover:bg-primary hover:text-secondary transition-all">
-                    <i class="fas fa-search"></i>
+            <form method="GET" class="max-w-2xl mx-auto relative group">
+                <input type="text" name="search" value="{{ search }}" placeholder="Search by teacher name or subject..." 
+                       class="relative w-full bg-white/90 border border-primary/30 rounded-sm py-6 px-10 pr-20 text-lg focus:border-primary transition-all outline-none font-bold text-secondary shadow-xl backdrop-blur-sm manuscript-frame">
+                <button type="submit" class="absolute right-4 top-1/2 -translate-y-1/2 w-14 h-14 bg-secondary text-primary rounded-sm flex items-center justify-center hover:bg-primary hover:text-secondary transition-all shadow-lg border border-primary/20">
+                    <i class="fas fa-search text-xl"></i>
                 </button>
             </form>
         </div>
 
         <!-- Grid -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-16">
             {% for teacher in teachers %}
-            <a href="{{ url_for('teachers.profile', slug=teacher.slug) }}" class="group bg-white rounded-[3rem] overflow-hidden shadow-xl hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 border border-slate-100 flex flex-col">
-                <div class="aspect-[4/5] overflow-hidden relative">
+            <a href="{{ url_for('teachers.profile', slug=teacher.slug) }}" class="group bg-white rounded-sm overflow-hidden shadow-xl hover:-translate-y-4 transition-all duration-700 border border-primary/10 flex flex-col relative card-elevate manuscript-frame">
+                <!-- Inner Geometric Pattern for Card -->
+                <div class="absolute inset-0 opacity-[0.02] pointer-events-none bg-pattern-girih"></div>
+                
+                <div class="aspect-[4/5] overflow-hidden relative arch-top m-4 mb-0 border border-primary/10 shadow-inner">
                     {% if teacher.photo_url %}
-                    <img src="{{ teacher.photo_url }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                    <img src="{{ teacher.photo_url }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000 opacity-90 group-hover:opacity-100">
                     {% else %}
-                    <div class="w-full h-full bg-secondary flex items-center justify-center text-primary/20">
-                        <i class="fas fa-user-tie text-8xl"></i>
+                    <div class="w-full h-full bg-secondary flex items-center justify-center relative">
+                        <div class="absolute inset-0 opacity-10 bg-pattern-hexagon"></div>
+                        <i class="fas fa-user-tie text-8xl text-primary/30 relative z-10"></i>
                     </div>
                     {% endif %}
                     
-                    <div class="absolute inset-0 bg-gradient-to-t from-secondary via-transparent to-transparent opacity-60"></div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-secondary via-transparent to-transparent opacity-80 group-hover:opacity-40 transition-opacity duration-500"></div>
                     
-                    <div class="absolute bottom-8 left-8 right-8">
-                        <span class="px-4 py-1 rounded-full bg-primary/20 text-primary text-[10px] font-black uppercase tracking-widest border border-primary/30 backdrop-blur-md mb-3 inline-block">
-                            {{ teacher.years_active }}
-                        </span>
-                        <h3 class="text-3xl font-black text-white uppercase leading-tight">{{ teacher.name }}</h3>
+                    <div class="absolute bottom-10 left-10 right-10">
+                        <div class="px-5 py-1.5 rounded-sm bg-primary text-secondary text-[8px] font-black uppercase tracking-[0.4em] border border-primary/30 backdrop-blur-md mb-4 inline-block shadow-lg font-sans">
+                            Active: {{ teacher.years_active }}
+                        </div>
+                        <h3 class="text-4xl font-black text-white uppercase leading-none group-hover:text-primary transition-colors duration-500 font-heading">{{ teacher.name }}</h3>
                     </div>
                 </div>
-                <div class="p-8 flex-1 flex flex-col justify-between">
-                    <p class="text-slate-400 font-bold text-[10px] uppercase tracking-[0.2em] mb-4">Subjects: <span class="text-secondary">{{ teacher.subjects }}</span></p>
-                    <div class="flex items-center justify-between">
-                        <span class="text-[10px] font-black text-primary uppercase tracking-widest">View Legacy <i class="fas fa-chevron-right ml-1"></i></span>
-                        <div class="flex -space-x-2">
+                
+                <div class="p-10 flex-1 flex flex-col justify-between relative z-10">
+                    <div class="space-y-4 mb-8">
+                        <p class="text-primary/40 font-black text-[9px] uppercase tracking-[0.4em] font-sans italic">Specialization</p>
+                        <p class="text-secondary font-bold text-xl font-amiri italic opacity-90">✧ {{ teacher.subjects }}</p>
+                    </div>
+                    
+                    <div class="pt-8 border-t border-primary/10 flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <span class="text-[9px] font-black text-primary uppercase tracking-[0.3em] group-hover:translate-x-2 transition-transform duration-500 font-sans">Explore Tribute ✧</span>
+                        </div>
+                        
+                        <div class="flex -space-x-3">
                             {% for tribute in teacher.tributes[:3] %}
-                            <div class="w-8 h-8 rounded-full bg-parchment border-2 border-white flex items-center justify-center text-[10px] font-black text-secondary shadow-sm">
+                            <div class="w-10 h-10 rounded-full bg-parchment border border-primary/20 flex items-center justify-center text-xs font-black text-secondary shadow-md hover:z-10 hover:scale-110 transition-transform cursor-default font-sans" title="{{ tribute.alumni_name }}">
                                 {{ tribute.alumni_name[0] }}
                             </div>
                             {% endfor %}
                             {% if teacher.tributes|length > 3 %}
-                            <div class="w-8 h-8 rounded-full bg-primary border-2 border-white flex items-center justify-center text-[8px] font-black text-secondary shadow-sm">
+                            <div class="w-10 h-10 rounded-full bg-secondary border border-primary/20 flex items-center justify-center text-[10px] font-black text-primary shadow-md font-sans">
                                 +{{ teacher.tributes|length - 3 }}
                             </div>
                             {% endif %}
@@ -64,12 +81,14 @@
                 </div>
             </a>
             {% else %}
-            <div class="col-span-full py-32 text-center bg-white rounded-[3rem] border-2 border-dashed border-primary/20">
-                <i class="fas fa-chalkboard-teacher text-6xl text-slate-200 mb-6"></i>
-                <p class="text-xl font-bold text-slate-400 uppercase tracking-widest">No teacher profiles found.</p>
+            <div class="col-span-full py-48 text-center bg-white/50 backdrop-blur-sm rounded-sm border-2 border-dashed border-primary/20 manuscript-frame">
+                <i class="fas fa-chalkboard-teacher text-8xl text-primary/10 mb-8 animate-pulse"></i>
+                <p class="text-2xl font-black text-secondary/40 uppercase tracking-widest font-sans">No teacher profiles found.</p>
+                <p class="text-slate-400 font-amiri mt-4 italic">Try adjusting your search terms.</p>
             </div>
             {% endfor %}
         </div>
     </div>
 </section>
 {% endblock %}
+

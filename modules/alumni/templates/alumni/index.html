@@ -5,37 +5,117 @@
 {% block head %}
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 <style>
-    #map { height: 70vh; border-radius: 2rem; border: 4px solid #D4AF37; box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.25); }
-    .leaflet-popup-content-wrapper { border-radius: 1rem; font-family: 'Amiri', serif; }
+    #map { 
+        height: 75vh; 
+        border: 1px solid #D4AF37; 
+        box-shadow: 0 20px 50px -10px rgba(26, 77, 62, 0.2);
+        position: relative;
+        background: #f8fafc;
+        overflow: hidden;
+    }
+
+    .map-container {
+        padding: 4px;
+        background: #D4AF37;
+        position: relative;
+    }
+
+    .leaflet-popup-content-wrapper { 
+        border-radius: 2px; 
+        font-family: 'Amiri', serif; 
+        border: 1px solid #D4AF37; 
+        background: rgba(255, 255, 255, 0.98); 
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    }
     .leaflet-popup-tip { background: #D4AF37; }
+
+    /* Beautiful Lantern Marker Styles */
+    .custom-marker {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .custom-marker:hover {
+        transform: scale(1.3) translateY(-5px);
+    }
+    
+    .lantern-svg {
+        width: 40px;
+        height: 40px;
+    }
+
+    .map-legend {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        padding: 2rem;
+        border: 1px solid #D4AF37;
+        box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        font-family: 'Amiri', serif;
+    }
 </style>
 {% endblock %}
 
 {% block body %}
-<section class="bg-parchment py-20">
-    <div class="max-w-7xl mx-auto px-4">
-        <div class="mb-16 text-center">
-            <h1 class="text-5xl font-black text-secondary uppercase tracking-tight mb-4">Where Are They <span class="text-primary italic">Now?</span></h1>
-            <p class="text-slate-500 font-amiri text-lg max-w-2xl mx-auto">
-                Explore the global footprint of our graduates. From community leaders to industry pioneers, our Old Boys are making their mark across the world.
+<section class="bg-parchment py-24 min-h-screen relative bg-pattern-hexagon overflow-hidden">
+    <div class="max-w-7xl mx-auto px-4 relative z-10">
+        <div class="mb-20 text-center">
+            <h1 class="text-6xl md:text-8xl font-black text-secondary uppercase tracking-tighter mb-8 font-heading heading-underline pb-4">Old Boys <span class="text-primary italic">Presence</span></h1>
+            <div class="mt-8 flex items-center justify-center gap-4 text-primary font-sans italic">
+                <span class="text-xl">✧</span>
+                <span class="text-xs font-black uppercase tracking-[0.4em]">Global Brotherhood</span>
+                <span class="text-xl">✧</span>
+            </div>
+            <p class="text-slate-600 font-amiri text-2xl max-w-3xl mx-auto leading-relaxed italic opacity-90 mt-10">
+                "Behold the lanterns of knowledge lit across the globe. Each flame represents a graduate illuminating their community."
             </p>
         </div>
 
-        <div id="map" class="mb-12"></div>
+        <div class="relative mb-20 map-container manuscript-frame shadow-2xl overflow-hidden">
+            <div id="map"></div>
+            
+            <!-- Map Legend -->
+            <div class="absolute bottom-10 left-10 z-[1001] map-legend hidden lg:block manuscript-frame manuscript-corner">
+                <h4 class="text-xs font-black uppercase tracking-[0.3em] text-secondary mb-6 border-b border-primary/20 pb-2 font-sans italic">Graduation Decades</h4>
+                <div class="grid grid-cols-2 gap-x-8 gap-y-4">
+                    <div class="flex items-center gap-3 text-[10px] font-black text-slate-500 uppercase tracking-widest font-sans">
+                        <span class="w-3 h-3 bg-secondary opacity-80"></span> Pre-1980s
+                    </div>
+                    <div class="flex items-center gap-3 text-[10px] font-black text-slate-500 uppercase tracking-widest font-sans">
+                        <span class="w-3 h-3 bg-[#8B4513] opacity-80"></span> 1980s
+                    </div>
+                    <div class="flex items-center gap-3 text-[10px] font-black text-slate-500 uppercase tracking-widest font-sans">
+                        <span class="w-3 h-3 bg-[#1A4D3E] opacity-80"></span> 1990s
+                    </div>
+                    <div class="flex items-center gap-3 text-[10px] font-black text-slate-500 uppercase tracking-widest font-sans">
+                        <span class="w-3 h-3 bg-[#D4AF37] opacity-80"></span> 2000s
+                    </div>
+                    <div class="flex items-center gap-3 text-[10px] font-black text-slate-500 uppercase tracking-widest font-sans">
+                        <span class="w-3 h-3 bg-[#C0392B] opacity-80"></span> 2010s
+                    </div>
+                    <div class="flex items-center gap-3 text-[10px] font-black text-slate-500 uppercase tracking-widest font-sans">
+                        <span class="w-3 h-3 bg-indigo opacity-80"></span> 2020s+
+                    </div>
+                </div>
+            </div>
+        </div>
 
-        <div class="flex flex-col md:flex-row gap-6">
-            <div class="flex-1 bg-white rounded-3xl p-8 border border-slate-100 shadow-xl">
-                <div class="flex items-center gap-4 text-secondary">
-                    <i class="fas fa-info-circle text-primary text-xl"></i>
-                    <p class="text-sm font-bold uppercase tracking-widest text-slate-500">Click on a pin to see alumni details. New profiles are added daily.</p>
+        <div class="flex flex-col md:flex-row gap-12">
+            <div class="flex-1 bg-white/90 p-12 border border-primary/10 shadow-xl flex items-center gap-10 relative overflow-hidden manuscript-frame">
+                <div class="absolute inset-0 opacity-[0.02] pointer-events-none bg-pattern-girih"></div>
+                <div class="w-20 h-20 bg-secondary text-primary flex items-center justify-center text-4xl shadow-md border border-primary/20 manuscript-frame">
+                    <i class="fas fa-scroll"></i>
+                </div>
+                <div>
+                    <h3 class="font-black text-secondary uppercase tracking-[0.3em] text-xs mb-3 font-sans">Illuminate Your Path</h3>
+                    <p class="text-slate-600 font-amiri text-xl leading-relaxed italic opacity-80">Click any lantern to reveal the achievements and locations of our distinguished alumni.</p>
                 </div>
             </div>
             
             {% if current_user.is_authenticated %}
-            <a href="{{ url_for('alumni.portal') }}" class="flex items-center justify-center gap-3 px-10 py-6 bg-secondary text-primary rounded-3xl font-black uppercase tracking-widest hover:bg-primary hover:text-secondary transition-all shadow-xl group">
-                <i class="fas fa-user-edit"></i>
-                Update My Profile
-                <i class="fas fa-arrow-right group-hover:translate-x-2 transition-transform"></i>
+            <a href="{{ url_for('oldboys_alumni.portal') }}" class="flex items-center justify-center gap-8 px-16 py-10 bg-secondary text-primary rounded-sm font-black uppercase tracking-[0.4em] hover:bg-primary hover:text-secondary transition-all shadow-2xl group border border-primary/30 manuscript-frame font-sans text-xs">
+                Light My Lantern
+                <i class="fas fa-chevron-right group-hover:translate-x-4 transition-transform duration-500 text-[10px]"></i>
             </a>
             {% endif %}
         </div>
@@ -47,30 +127,86 @@
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        const map = L.map('map').setView([20, 0], 2);
+        const map = L.map('map', {
+            zoomControl: false,
+            scrollWheelZoom: false
+        }).setView([20, 0], 2);
+
+        L.control.zoom({ position: 'topright' }).addTo(map);
 
         L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+            attribution: '&copy; <a href="https://carto.com/attributions">CARTO</a>',
             subdomains: 'abcd',
             maxZoom: 20
         }).addTo(map);
+
+        const getDecadeColor = (year) => {
+            const y = parseInt(year);
+            if (!y) return '#94a3b8';
+            if (y < 1980) return '#1A4D3E';
+            if (y < 1990) return '#8B4513';
+            if (y < 2000) return '#1A4D3E';
+            if (y < 2010) return '#D4AF37';
+            if (y < 2020) return '#C0392B';
+            return '#1B263B';
+        };
+
+        const createIcon = (color) => {
+            const lanternSvg = `
+                <svg class="lantern-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M50 5 L35 20 L65 20 Z" fill="${color}" stroke="#D4AF37" stroke-width="1"/>
+                    <path d="M35 20 L25 70 L75 70 L65 20 Z" fill="${color}" opacity="0.95" stroke="#D4AF37" stroke-width="1"/>
+                    <rect x="42" y="35" width="16" height="20" fill="#D4AF37" opacity="0.3"/>
+                    <path d="M25 70 L30 80 L70 80 L75 70 Z" fill="${color}" stroke="#D4AF37" stroke-width="1"/>
+                    <path d="M48 80 L50 88 L52 80 Z" fill="#D4AF37"/>
+                </svg>
+            `;
+
+            return L.divIcon({
+                html: `<div class="custom-marker">${lanternSvg}</div>`,
+                className: 'custom-div-icon',
+                iconSize: [40, 40],
+                iconAnchor: [20, 40],
+                popupAnchor: [0, -35]
+            });
+        };
 
         fetch('/alumni/data')
             .then(response => response.json())
             .then(data => {
                 data.forEach(alumnus => {
                     if (alumnus.lat && alumnus.lon) {
-                        const marker = L.marker([alumnus.lat, alumnus.lon]).addTo(map);
+                        const color = getDecadeColor(alumnus.year);
+                        const marker = L.marker([alumnus.lat, alumnus.lon], {
+                            icon: createIcon(color)
+                        }).addTo(map);
+
                         marker.bindPopup(`
-                            <div class="p-2">
-                                <h3 class="text-lg font-black text-secondary uppercase mb-1">${alumnus.name}</h3>
-                                <p class="text-primary font-bold text-xs uppercase tracking-widest mb-2">Class of ${alumnus.year}</p>
-                                <div class="text-sm text-slate-600">
-                                    <p><strong>Location:</strong> ${alumnus.city}</p>
-                                    <p><strong>Profession:</strong> ${alumnus.profession}</p>
+                            <div class="p-6 text-center">
+                                <div class="w-16 h-16 bg-secondary mx-auto mb-6 flex items-center justify-center border border-primary/30 relative overflow-hidden manuscript-frame">
+                                    <div class="absolute inset-0 opacity-10 bg-pattern-hexagon"></div>
+                                    <i class="fas fa-graduation-cap text-primary text-2xl relative z-10"></i>
+                                </div>
+                                <h3 class="text-3xl font-black text-secondary uppercase leading-none mb-4 font-heading">${alumnus.name}</h3>
+                                <div class="inline-block px-6 py-1.5 bg-primary text-secondary text-[10px] font-black uppercase tracking-[0.3em] mb-8 font-sans">
+                                    Class of ${alumnus.year}
+                                </div>
+                                <div class="space-y-6 text-left border-t border-primary/10 pt-8">
+                                    <div class="space-y-1">
+                                        <p class="text-[8px] text-primary font-black uppercase tracking-[0.4em] font-sans italic">Domicile</p>
+                                        <p class="text-lg font-bold text-secondary font-amiri italic opacity-90">
+                                            ✧ ${alumnus.city}
+                                        </p>
+                                    </div>
+                                    <div class="space-y-1">
+                                        <p class="text-[8px] text-primary font-black uppercase tracking-[0.4em] font-sans italic">Profession</p>
+                                        <p class="text-lg font-bold text-secondary font-amiri italic opacity-90">
+                                            ✧ ${alumnus.profession}
+                                        </p>
+                                    </div>
                                 </div>
                             </div>
-                        `);
+                        `, { maxWidth: 300 });
                     }
                 });
             });
