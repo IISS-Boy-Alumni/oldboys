@@ -42,6 +42,17 @@ def portal():
     # Ensure the user has an alumni profile record
     alumni_profile = Alumni.query.filter_by(user_id=current_user.id).first()
     countries = sorted([country.name for country in pycountry.countries])
+    districts = [
+        "Black River",
+        "Flacq",
+        "Grand Port",
+        "Moka",
+        "Pamplemousses",
+        "Plaines Wilhems",
+        "Port Louis",
+        "Rivière du Rempart",
+        "Savanne"
+    ]
 
     if request.method == "POST":
         name = request.form.get("name")
@@ -75,6 +86,7 @@ def portal():
     context.update({
         "alumni_record": alumni_profile,
         "countries": countries,
+        "districts": districts,
         "default_country": "Mauritius"
     })
     return render_template("alumni/portal.html", **context)
@@ -84,9 +96,25 @@ def data():
     # Fetch all alumni
     all_alumni = Alumni.query.all()
     alumni_data = []
+
+    # Precise center coordinates for Mauritius districts
+    district_coords = {
+        "Black River": (-20.3500, 57.3800),
+        "Flacq": (-20.2200, 57.7100),
+        "Grand Port": (-20.3800, 57.6500),
+        "Moka": (-20.2200, 57.5800),
+        "Pamplemousses": (-20.1000, 57.5600),
+        "Plaines Wilhems": (-20.3100, 57.4900),
+        "Port Louis": (-20.1600, 57.5000),
+        "Rivière du Rempart": (-20.0800, 57.6500),
+        "Savanne": (-20.4600, 57.5300)
+    }
+
     for a in all_alumni:
         lat, lon = None, None
-        if a.country:
+        if a.country == "Mauritius" and a.current_city in district_coords:
+            lat, lon = district_coords[a.current_city]
+        elif a.country:
             try:
                 c_info = CountryInfo(a.country)
                 latlng = c_info.latlng()
