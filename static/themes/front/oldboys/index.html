@@ -8,10 +8,10 @@
     <!-- Subtle Gradient Overlay -->
     <div class="absolute inset-0 bg-gradient-to-b from-secondary/80 via-secondary to-secondary"></div>
     
-    <div class="relative max-w-5xl mx-auto px-4 text-center z-10 pt-20">
+    <div class="relative max-w-5xl mx-auto px-4 text-center z-10 py-32">
         <!-- Badge -->
         <div class="inline-flex items-center gap-4 px-6 py-2 bg-primary/5 border border-primary/20 rounded-sm mb-12 backdrop-blur-sm">
-            <span class="text-primary text-[10px] font-black uppercase tracking-[0.5em] font-sans">Est. 1964 • Legacy of Excellence</span>
+            <span class="text-primary text-[10px] font-black uppercase tracking-[0.5em] font-sans">Est. 1997 • Legacy of Excellence</span>
         </div>
         
         <!-- Main Title with Arch Influence -->
@@ -22,8 +22,11 @@
             </h1>
         </div>
 
-        <p class="max-w-2xl mx-auto text-xl md:text-2xl text-slate-300 font-amiri leading-relaxed mb-16 opacity-90 italic">
-            "A community of excellence, rooted in faith, and dedicated to the service of humanity. Welcome back, Old Boys."
+        <p class="max-w-4xl mx-auto text-2xl md:text-3xl text-slate-200 font-amiri leading-relaxed mb-8 opacity-95 italic">
+            لَا خَیْرَ فِیْ كَثِیْرٍ مِّنْ نَّجْوٰىهُمْ اِلَّا مَنْ اَمَرَ بِصَدَقَةٍ اَوْ مَعْرُوْفٍ اَوْ اِصْلَاحٍ بَیْنَ النَّاسِؕ-وَ مَنْ یَّفْعَلْ ذٰلِكَ ابْتِغَآءَ مَرْضَاتِ اللّٰهِ فَسَوْفَ نُؤْتِیْهِ اَجْرًا عَظِیْمًا(٤-١١٤)
+        </p>
+        <p class="max-w-3xl mx-auto text-sm md:text-base text-primary/80 font-sans uppercase tracking-[0.2em] leading-relaxed mb-16 opacity-90 font-bold italic">
+            "There is no goodness in most of their secret consultations except for those who advise regarding charity or good deeds (ma'roof) or reconciliation between people. And whosoever does this seeking the pleasure of Allah, soon We shall endow him with great reward."
         </p>
 
         <!-- CTA Buttons with Manuscript Styling -->
@@ -34,6 +37,19 @@
             <a href="{{ url_for('oldboys_timeline.index') }}" class="px-12 py-5 border border-white/30 text-white rounded-sm font-black uppercase tracking-widest hover:bg-white/10 transition-all backdrop-blur-md hover-gold-grow">
                 School History
             </a>
+        </div>
+
+        <!-- Quick Stats -->
+        <div class="flex justify-center gap-16 text-white/80 border-t border-white/10 pt-12 max-w-2xl mx-auto">
+            {% set stats = get_stats() %}
+            <div class="text-center">
+                <span class="block text-4xl font-black text-primary mb-2 font-heading">{{ stats.alumni_count }}+</span>
+                <span class="text-[10px] font-bold uppercase tracking-[0.3em] font-sans">Registered Alumni</span>
+            </div>
+            <div class="text-center">
+                <span class="block text-4xl font-black text-primary mb-2 font-heading">100+</span>
+                <span class="text-[10px] font-bold uppercase tracking-[0.3em] font-sans">Hafidh-ul-Qur'an</span>
+            </div>
         </div>
     </div>
 
@@ -51,7 +67,7 @@
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-16">
             <!-- Alumni Map Card -->
-            <div class="bg-white p-12 shadow-sm border border-primary/10 relative card-elevate arch-card overflow-hidden text-center">
+            <div class="bg-white p-12 shadow-sm border border-primary/10 relative card-elevate manuscript-frame rounded-sm mx-auto">
                 <div class="w-16 h-16 bg-secondary text-primary flex items-center justify-center text-2xl mb-10 manuscript-frame rounded-sm mx-auto">
                     <i class="fas fa-map-marked-alt"></i>
                 </div>
@@ -65,13 +81,13 @@
             </div>
 
             <!-- Timeline Card -->
-            <div class="bg-white p-12 shadow-sm border border-primary/10 relative card-elevate arch-card overflow-hidden text-center">
+            <div class="bg-white p-12 shadow-sm border border-primary/10 relative card-elevate manuscript-frame rounded-sm mx-auto">
                 <div class="w-16 h-16 bg-secondary text-primary flex items-center justify-center text-2xl mb-10 manuscript-frame rounded-sm mx-auto">
                     <i class="fas fa-history"></i>
                 </div>
                 <h3 class="text-2xl font-black text-secondary uppercase mb-6 font-heading">School Timeline</h3>
                 <p class="text-slate-600 font-amiri text-lg leading-relaxed mb-10 italic">
-                    Travel through time from our founding in 1945. Relive the milestones that shaped our institution.
+                    Travel through time from our founding in 1997. Relive the milestones that shaped our institution.
                 </p>
                 <a href="{{ url_for('oldboys_timeline.index') }}" class="inline-flex items-center gap-4 text-xs font-black text-primary uppercase tracking-[0.3em] hover-gold-grow">
                     View Milestones ✧
@@ -79,7 +95,7 @@
             </div>
 
             <!-- Teachers Card -->
-            <div class="bg-white p-12 shadow-sm border border-primary/10 relative card-elevate arch-card overflow-hidden text-center">
+            <div class="bg-white p-12 shadow-sm border border-primary/10 relative card-elevate manuscript-frame rounded-sm mx-auto">
                 <div class="w-16 h-16 bg-secondary text-primary flex items-center justify-center text-2xl mb-10 manuscript-frame rounded-sm mx-auto">
                     <i class="fas fa-chalkboard-teacher"></i>
                 </div>
@@ -87,7 +103,7 @@
                 <p class="text-slate-600 font-amiri text-lg leading-relaxed mb-10 italic">
                     Honoring those who dedicated their lives to our education. Leave a message for your favorite Ustadh.
                 </p>
-                <a href="/shopyo-page/s/teachers-tribute" class="inline-flex items-center gap-4 text-xs font-black text-primary uppercase tracking-[0.3em] hover-gold-grow">
+                <a href="{{ url_for('oldboys_teachers.index') }}" class="inline-flex items-center gap-4 text-xs font-black text-primary uppercase tracking-[0.3em] hover-gold-grow">
                     Leave a Tribute ✧
                 </a>
             </div>
@@ -114,21 +130,11 @@
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
             {% for news in get_content('News', limit=4) %}
-            <div class="group cursor-pointer">
-                <div class="aspect-[4/5] bg-slate-900 mb-8 overflow-hidden manuscript-frame relative arch-top group-hover:scale-105 transition-transform duration-500 shadow-2xl">
-                    {% if news.data.image %}
-                    <img src="{{ news.data.image }}" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity">
-                    {% else %}
-                    <div class="w-full h-full flex items-center justify-center text-white/5 bg-pattern-hexagon">
-                        <i class="fas fa-newspaper text-6xl"></i>
-                    </div>
-                    {% endif %}
-                    <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent opacity-60"></div>
-                </div>
+            <div class="group cursor-pointer border-l border-primary/20 pl-6 py-4 hover:border-primary transition-colors">
                 <div class="space-y-4">
                     <span class="text-primary text-[8px] font-black uppercase tracking-[0.4em] block italic">Announcement • {{ current_year }}</span>
                     <h4 class="text-2xl font-bold font-heading group-hover:text-primary transition-colors leading-tight">{{ news.data.title }}</h4>
-                    <p class="text-slate-400 text-sm font-amiri leading-relaxed line-clamp-2 opacity-80 italic">{{ news.data.excerpt }}</p>
+                    <p class="text-slate-400 text-sm font-amiri leading-relaxed line-clamp-4 opacity-80 italic">{{ news.data.excerpt }}</p>
                 </div>
             </div>
             {% endfor %}

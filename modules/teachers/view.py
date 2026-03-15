@@ -51,7 +51,7 @@ def submit_tribute(slug):
     
     if not alumni_name or not message:
         flash("Please fill in all required fields.", "danger")
-        return redirect(url_for('teachers.profile', slug=slug))
+        return redirect(url_for('oldboys_teachers.profile', slug=slug))
         
     new_tribute = Tribute(
         teacher_id=teacher.id,
@@ -66,7 +66,7 @@ def submit_tribute(slug):
         flash("Tribute posted successfully!", "success")
     else:
         flash("Thank you! Your tribute has been submitted and is awaiting moderation.", "success")
-    return redirect(url_for('teachers.profile', slug=slug))
+    return redirect(url_for('oldboys_teachers.profile', slug=slug))
 
 @teachers_blueprint.route("/dashboard")
 @login_required
@@ -93,7 +93,7 @@ def approve_tribute(tribute_id):
     tribute.is_approved = True
     tribute.update()
     flash("Tribute approved and published.", "success")
-    return redirect(url_for('teachers.dashboard'))
+    return redirect(url_for('oldboys_teachers.dashboard'))
 
 @teachers_blueprint.route("/tribute/<int:tribute_id>/delete", methods=["POST"])
 @login_required
@@ -102,4 +102,4 @@ def delete_tribute(tribute_id):
     tribute = Tribute.query.get_or_404(tribute_id)
     tribute.delete()
     flash("Tribute deleted.", "success")
-    return redirect(url_for('teachers.dashboard'))
+    return redirect(url_for('oldboys_teachers.dashboard'))

@@ -12,7 +12,7 @@
     <div class="max-w-7xl mx-auto px-4 relative z-10">
         <!-- Breadcrumbs -->
         <nav class="flex items-center gap-3 mb-16 px-4">
-            <a href="{{ url_for('teachers.index') }}" class="text-[10px] font-black text-primary uppercase tracking-[0.2em] hover:text-secondary transition-colors bg-white/50 backdrop-blur-sm px-4 py-2 rounded-full border border-primary/20">Teachers Legacy</a>
+            <a href="{{ url_for('oldboys_teachers.index') }}" class="text-[10px] font-black text-primary uppercase tracking-[0.2em] hover:text-secondary transition-colors bg-white/50 backdrop-blur-sm px-4 py-2 rounded-full border border-primary/20">Teachers Legacy</a>
             <i class="fas fa-chevron-right text-[8px] text-slate-300"></i>
             <span class="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">{{ teacher.name }}</span>
         </nav>
@@ -20,38 +20,40 @@
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-16">
             <!-- Left: Profile Info -->
             <div class="space-y-12">
-                <div class="bg-white rounded-[4rem] overflow-hidden shadow-2xl border border-primary/10 relative group">
+                <div class="bg-white rounded-sm overflow-hidden shadow-2xl border-l-8 border-primary relative group manuscript-frame">
                     <!-- Inner Geometric Pattern for Card -->
                     <div class="absolute inset-0 opacity-[0.03] pointer-events-none bg-geometric-subtle"></div>
                     
-                    <div class="aspect-square relative overflow-hidden arch-top m-6 mb-0 border-4 border-parchment shadow-inner">
-                        {% if teacher.photo_url %}
-                        <img src="{{ teacher.photo_url }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000">
-                        {% else %}
-                        <div class="w-full h-full bg-andalusian-dark flex items-center justify-center">
-                            <i class="fas fa-user-tie text-9xl text-primary/30"></i>
+                    <div class="p-12 text-center space-y-10 relative z-10">
+                        <div class="w-32 h-32 bg-secondary text-primary rounded-sm flex items-center justify-center text-6xl font-black mx-auto shadow-2xl border border-primary/20 rotate-3 group-hover:rotate-0 transition-transform duration-700 font-heading">
+                            {{ teacher.name[0] }}
                         </div>
-                        {% endif %}
-                        <div class="absolute inset-0 bg-gradient-to-t from-secondary/60 via-transparent to-transparent opacity-60"></div>
-                    </div>
-                    <div class="p-10 text-center space-y-6">
-                        <div class="px-6 py-2 rounded-full bg-primary/10 text-primary text-[10px] font-black uppercase tracking-widest border border-primary/20 inline-block shadow-sm">
-                            Active Service: {{ teacher.years_active }}
+                        
+                        <div class="space-y-4">
+                            <div class="px-6 py-2 rounded-sm bg-primary/10 text-primary text-[10px] font-black uppercase tracking-widest border border-primary/20 inline-block shadow-sm font-sans">
+                                Active Service: {{ teacher.years_active }}
+                            </div>
+                            <h1 class="text-5xl font-black text-secondary uppercase tracking-tighter leading-none font-heading">{{ teacher.name }}</h1>
+                            <p class="text-primary/60 font-black text-xs uppercase tracking-[0.4em] font-sans italic">{{ teacher.subjects }}</p>
                         </div>
-                        <h1 class="text-4xl font-black text-secondary uppercase tracking-tight leading-none">{{ teacher.name }}</h1>
-                        <p class="text-slate-400 font-bold text-xs uppercase tracking-[0.3em]">{{ teacher.subjects }}</p>
                         
                         {% if teacher.legacy_quote %}
-                        <div class="pt-10 border-t border-slate-50 relative">
-                            <i class="fas fa-quote-left text-primary/20 text-5xl absolute -top-5 left-1/2 -translate-x-1/2"></i>
-                            <p class="font-amiri italic text-slate-600 text-xl leading-relaxed">"{{ teacher.legacy_quote }}"</p>
+                        <div class="pt-10 border-t border-primary/10 relative">
+                            <i class="fas fa-quote-left text-primary/10 text-6xl absolute -top-6 left-1/2 -translate-x-1/2"></i>
+                            <p class="font-amiri italic text-slate-600 text-2xl leading-relaxed relative z-10">"{{ teacher.legacy_quote }}"</p>
                         </div>
                         {% endif %}
+
+                        <div class="pt-8 flex justify-center gap-4">
+                            <span class="w-2 h-2 rounded-full bg-primary/20"></span>
+                            <span class="w-2 h-2 rounded-full bg-primary/40"></span>
+                            <span class="w-2 h-2 rounded-full bg-primary/20"></span>
+                        </div>
                     </div>
                 </div>
 
                 <!-- Tribute Form Trigger (Mobile) -->
-                <a href="#tribute-form" class="lg:hidden block w-full bg-secondary text-primary text-center font-black py-6 px-8 rounded-3xl uppercase tracking-widest text-xs shadow-2xl border-b-4 border-primary/30">
+                <a href="#tribute-form" class="lg:hidden block w-full bg-secondary text-primary text-center font-black py-6 px-8 rounded-sm uppercase tracking-widest text-xs shadow-2xl border-b-4 border-primary/30 manuscript-frame">
                     Leave a Tribute
                 </a>
             </div>
@@ -59,14 +61,14 @@
             <!-- Right: Bio and Tributes -->
             <div class="lg:col-span-2 space-y-20">
                 <!-- Biography -->
-                <div class="bg-white/80 backdrop-blur-md rounded-[4rem] p-12 md:p-20 shadow-2xl border border-primary/10 relative overflow-hidden">
+                <div class="bg-white/90 backdrop-blur-md rounded-sm p-12 md:p-20 shadow-2xl border border-primary/10 relative overflow-hidden manuscript-frame">
                     <div class="absolute top-0 right-0 w-48 h-48 bg-primary/5 rounded-bl-full"></div>
                     <!-- Inner Geometric Pattern -->
                     <div class="absolute inset-0 opacity-[0.02] pointer-events-none bg-geometric-subtle"></div>
                     
                     <div class="relative">
-                        <h2 class="text-4xl font-black text-secondary uppercase mb-10 border-b-4 border-primary/20 pb-6 inline-block tracking-tighter">Biography</h2>
-                        <div class="prose prose-slate prose-xl max-w-none font-amiri leading-relaxed text-slate-600 space-y-6">
+                        <h2 class="text-4xl font-black text-secondary uppercase mb-10 border-b-2 border-primary/20 pb-6 inline-block tracking-tighter font-heading">Biography & Legacy</h2>
+                        <div class="prose prose-slate prose-xl max-w-none font-amiri leading-relaxed text-slate-700 space-y-8 italic">
                             {{ teacher.bio | safe }}
                         </div>
                     </div>
@@ -74,81 +76,78 @@
 
                 <!-- Tributes Wall -->
                 <div class="space-y-12">
-                    <div class="flex items-center justify-between border-b-4 border-primary/20 pb-8 px-4">
-                        <h2 class="text-4xl font-black text-secondary uppercase tracking-tighter">Legacy <span class="text-primary italic">Wall</span></h2>
-                        <span class="px-4 py-1.5 bg-secondary text-primary rounded-full text-[10px] font-black uppercase tracking-widest shadow-lg">{{ tributes|length }} Messages</span>
+                    <div class="flex items-center justify-between border-b-2 border-primary/20 pb-8 px-4">
+                        <h2 class="text-4xl font-black text-secondary uppercase tracking-tighter font-heading">Legacy <span class="text-primary italic">Wall</span></h2>
+                        <span class="px-6 py-2 bg-secondary text-primary rounded-sm text-[10px] font-black uppercase tracking-widest shadow-lg border border-primary/20 font-sans">{{ tributes|length }} Messages</span>
                     </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
                         {% for tribute in tributes %}
-                        <div class="bg-white p-10 rounded-[3rem] shadow-xl border border-primary/5 relative group hover:shadow-primary/10 hover:-translate-y-2 transition-all duration-500 overflow-hidden">
+                        <div class="bg-white p-12 rounded-sm shadow-xl border border-primary/10 relative group hover:shadow-primary/5 hover:-translate-y-2 transition-all duration-500 overflow-hidden manuscript-frame">
                             <!-- Inner Geometric Pattern -->
                             <div class="absolute inset-0 opacity-[0.02] pointer-events-none bg-geometric-subtle"></div>
                             
-                            <i class="fas fa-star-and-crescent text-primary/5 text-7xl absolute -top-4 -right-4 group-hover:scale-110 group-hover:text-primary/10 transition-all duration-700"></i>
-                            
-                            <div class="relative space-y-6">
-                                <div class="text-lg font-amiri leading-relaxed text-slate-600 italic">"{{ tribute.message }}"</div>
-                                <div class="pt-6 border-t border-slate-100 flex justify-between items-center">
+                            <div class="relative space-y-8">
+                                <div class="text-xl font-amiri leading-relaxed text-slate-700 italic opacity-90">"{{ tribute.message }}"</div>
+                                <div class="pt-8 border-t border-primary/10 flex justify-between items-center">
                                     <div class="flex items-center gap-4">
-                                        <div class="w-12 h-12 bg-parchment rounded-2xl flex items-center justify-center text-secondary font-black text-lg border-2 border-primary/10 shadow-inner">
+                                        <div class="w-12 h-12 bg-secondary text-primary rounded-sm flex items-center justify-center font-black text-lg border border-primary/10 shadow-inner font-sans">
                                             {{ tribute.alumni_name[0] }}
                                         </div>
                                         <div>
-                                            <h4 class="font-black text-secondary uppercase text-[11px] tracking-widest">{{ tribute.alumni_name }}</h4>
-                                            <p class="text-[9px] font-bold text-primary uppercase tracking-[0.2em]">Class of {{ tribute.graduation_year }}</p>
+                                            <h4 class="font-black text-secondary uppercase text-[11px] tracking-widest font-sans">{{ tribute.alumni_name }}</h4>
+                                            <p class="text-[9px] font-bold text-primary uppercase tracking-[0.3em] font-sans">Class of {{ tribute.graduation_year }}</p>
                                         </div>
                                     </div>
-                                    <span class="text-[9px] font-black text-slate-300 uppercase tracking-widest">{{ tribute.date_posted.strftime('%b %Y') }}</span>
+                                    <span class="text-[9px] font-black text-slate-400 uppercase tracking-widest font-sans">{{ tribute.date_posted.strftime('%b %Y') }}</span>
                                 </div>
                             </div>
                         </div>
                         {% else %}
-                        <div class="col-span-full py-32 text-center bg-white/40 backdrop-blur-sm rounded-[4rem] border-4 border-dashed border-primary/20">
-                            <i class="fas fa-heart text-6xl text-primary/20 mb-6 animate-pulse"></i>
-                            <p class="text-xl font-black text-slate-400 uppercase tracking-widest italic">Be the first to honor this legacy.</p>
+                        <div class="col-span-full py-32 text-center bg-white/40 backdrop-blur-sm rounded-sm border-2 border-dashed border-primary/20">
+                            <p class="text-xl font-black text-slate-400 uppercase tracking-widest italic font-sans">Be the first to honor this legacy.</p>
                         </div>
                         {% endfor %}
                     </div>
                 </div>
 
                 <!-- Tribute Form -->
-                <div id="tribute-form" class="bg-secondary rounded-[4rem] p-12 md:p-20 text-white shadow-2xl relative overflow-hidden bg-andalusian-dark">
+                <div id="tribute-form" class="bg-secondary rounded-sm p-12 md:p-20 text-white shadow-2xl relative overflow-hidden manuscript-frame border border-primary/20">
                     <div class="absolute inset-0 opacity-10 pointer-events-none bg-geometric-subtle"></div>
                     
                     <div class="relative space-y-12">
                         <div class="text-center">
-                            <h2 class="text-5xl font-black uppercase tracking-tighter">Post a <span class="text-primary italic">Tribute</span></h2>
-                            <p class="text-primary/60 text-[10px] font-black uppercase tracking-[0.3em] mt-4">Help us preserve the memory of {{ teacher.name }}</p>
-                            <div class="w-20 h-1 bg-primary/30 mx-auto mt-6 rounded-full"></div>
+                            <h2 class="text-5xl font-black uppercase tracking-tighter font-heading">Post a <span class="text-primary italic">Tribute</span></h2>
+                            <p class="text-primary/60 text-[10px] font-black uppercase tracking-[0.3em] mt-4 font-sans">Help us preserve the memory of {{ teacher.name }}</p>
+                            <div class="w-24 h-[1px] bg-primary/30 mx-auto mt-8"></div>
                         </div>
 
-                        <form action="{{ url_for('teachers.submit_tribute', slug=teacher.slug) }}" method="POST" class="space-y-8">
+                        <form action="{{ url_for('oldboys_teachers.submit_tribute', slug=teacher.slug) }}" method="POST" class="space-y-10">
                             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                                <div class="space-y-2">
-                                    <label class="text-[10px] font-black text-primary/60 uppercase tracking-widest ml-4">Your Name</label>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+                                <div class="space-y-4">
+                                    <label class="text-[10px] font-black text-primary/60 uppercase tracking-widest ml-4 font-sans">Your Name</label>
                                     <input type="text" name="alumni_name" placeholder="Full Name" required
-                                           class="w-full bg-white/5 border-2 border-white/10 rounded-2xl py-5 px-8 text-sm focus:ring-8 focus:ring-primary/10 focus:border-primary/50 transition-all outline-none font-bold placeholder:text-white/20">
+                                           class="w-full bg-white/5 border border-white/10 rounded-sm py-5 px-8 text-sm focus:border-primary/50 transition-all outline-none font-bold placeholder:text-white/20">
                                 </div>
-                                <div class="space-y-2">
-                                    <label class="text-[10px] font-black text-primary/60 uppercase tracking-widest ml-4">Class Year</label>
+                                <div class="space-y-4">
+                                    <label class="text-[10px] font-black text-primary/60 uppercase tracking-widest ml-4 font-sans">Class Year</label>
                                     <input type="number" name="graduation_year" placeholder="YYYY" required
-                                           class="w-full bg-white/5 border-2 border-white/10 rounded-2xl py-5 px-8 text-sm focus:ring-8 focus:ring-primary/10 focus:border-primary/50 transition-all outline-none font-bold placeholder:text-white/20">
+                                           class="w-full bg-white/5 border border-white/10 rounded-sm py-5 px-8 text-sm focus:border-primary/50 transition-all outline-none font-bold placeholder:text-white/20">
                                 </div>
                             </div>
-                            <div class="space-y-2">
-                                <label class="text-[10px] font-black text-primary/60 uppercase tracking-widest ml-4">Your Message</label>
+                            <div class="space-y-4">
+                                <label class="text-[10px] font-black text-primary/60 uppercase tracking-widest ml-4 font-sans">Your Message</label>
                                 <textarea name="message" rows="6" placeholder="Share a story or a simple thank you..." required
-                                          class="w-full bg-white/5 border-2 border-white/10 rounded-3xl py-6 px-8 text-lg focus:ring-8 focus:ring-primary/10 focus:border-primary/50 transition-all outline-none font-amiri placeholder:text-white/20 leading-relaxed"></textarea>
+                                          class="w-full bg-white/5 border border-white/10 rounded-sm py-6 px-8 text-xl focus:border-primary/50 transition-all outline-none font-amiri placeholder:text-white/20 leading-relaxed italic"></textarea>
                             </div>
                             
-                            <button type="submit" class="w-full bg-primary text-secondary font-black py-6 px-8 rounded-2xl hover:bg-white hover:scale-[1.02] transition-all shadow-2xl uppercase tracking-[0.3em] text-xs border-b-4 border-secondary/20">
+                            <button type="submit" class="w-full bg-primary text-secondary font-black py-6 px-8 rounded-sm hover:bg-white transition-all shadow-2xl uppercase tracking-[0.4em] text-xs font-sans">
                                 Submit to Legacy Wall
                             </button>
                             <div class="flex items-center justify-center gap-3 text-white/30">
                                 <i class="fas fa-shield-alt text-[10px]"></i>
-                                <p class="text-[9px] uppercase tracking-widest font-black">All tributes are moderated by the alumni committee</p>
+                                <p class="text-[9px] uppercase tracking-widest font-black font-sans">All tributes are moderated by the alumni committee</p>
                             </div>
                         </form>
                     </div>

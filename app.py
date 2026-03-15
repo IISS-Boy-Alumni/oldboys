@@ -394,6 +394,12 @@ def inject_global_vars(app, global_template_variables):
                 return query.limit(limit).all()
             return query.all()
 
+        def get_stats():
+            from modules.alumni.models import Alumni
+            return {
+                "alumni_count": Alumni.query.count()
+            }
+
         base_context = {
             "APP_NAME": APP_NAME,
             "OUR_APP_NAME": APP_NAME,
@@ -407,7 +413,8 @@ def inject_global_vars(app, global_template_variables):
             "get_active_back_theme": get_active_back_theme,
             "get_modules_info": get_modules_info,
             "get_url_prefix": get_url_prefix,
-            "get_content": get_content
+            "get_content": get_content,
+            "get_stats": get_stats
         }
         base_context.update(global_template_variables)
 

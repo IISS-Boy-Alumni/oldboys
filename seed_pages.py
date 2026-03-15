@@ -9,17 +9,17 @@ def seed_pages():
         if not Page.query.filter_by(slug="about-us").first():
             about = Page(
                 slug="about-us",
-                title="Our Mission & Values",
+                title="History Of IISS",
                 template="oldboys/page.html"
             )
             db.session.add(about)
             db.session.flush()
             about.insert_lang("en", """
-                <p>Old Boys Islamic School was founded in 1945 with a vision to provide world-class education rooted in Islamic values.</p>
+                <p>By the grace of Allah, IISS came into existence in January 1997, through the initiative of Dr Meshan Mauthoor (BSc. MSc, PhD Chem Eng) and his wife Mrs Mariam Mauthoor (BSC and BA (Hons) Psychology) who came up with this project after their return from South Africa in 1995.</p>
+                <p>The foundation of IISS was also assisted through the dedication of other founder members (i.e. Ml Mashood Mauthoor, Ml Ikhlas Ahmad (1st ameer of IISS), Br Haadee Sheikh Fareed, Br Hoomayoon Mauthoor) and the expertise of some educationists from Springs Muslim School of Johannesburg, South-Africa and the co-operation of concerned Muslim parents.</p>
+                <p>Eight classes (i.e. 2 pre-primary, 4 primary and 2 secondary classes) were put in operation in a rented building at Cassis, Port Louis and is owned by a Muslim society, the Jamia Al Uloom Al Islamia. Alhamdulillah, the IISS has progressed steadily from 1997, with a population of about 180 students, till today with a total number of 36 classes and a school population of 650 students on the IISS campus at Cassis, Port Louis.</p>
                 <h3>Our Mission</h3>
-                <p>To nurture balanced individuals who achieve excellence in both worldly knowledge and spiritual growth.</p>
-                <h3>Our History</h3>
-                <p>From a small madrasa to a leading regional institution, our journey has been one of community dedication and divine grace.</p>
+                <p>To nurture balanced individuals who achieve excellence in both worldly knowledge and spiritual growth, rooted in Islamic values.</p>
             """)
             print("Seeded: About Us")
 

@@ -33,11 +33,11 @@
                         <p class="text-[8px] font-bold text-primary uppercase tracking-widest">Class of {{ tribute.graduation_year }}</p>
                     </div>
                     <div class="flex gap-2">
-                        <form action="{{ url_for('teachers.approve_tribute', tribute_id=tribute.id) }}" method="POST">
+                        <form action="{{ url_for('oldboys_teachers.approve_tribute', tribute_id=tribute.id) }}" method="POST">
                             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                             <button type="submit" class="px-4 py-2 rounded-xl bg-emerald-500 text-white text-[9px] font-black uppercase tracking-widest hover:bg-emerald-600 transition-all shadow-lg shadow-emerald-500/20">Approve</button>
                         </form>
-                        <form action="{{ url_for('teachers.delete_tribute', tribute_id=tribute.id) }}" method="POST" onsubmit="return confirm('Reject and delete this tribute?')">
+                        <form action="{{ url_for('oldboys_teachers.delete_tribute', tribute_id=tribute.id) }}" method="POST" onsubmit="return confirm('Reject and delete this tribute?')">
                             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                             <button type="submit" class="px-4 py-2 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-500 text-[9px] font-black uppercase tracking-widest hover:bg-rose-500 hover:text-white transition-all">Reject</button>
                         </form>

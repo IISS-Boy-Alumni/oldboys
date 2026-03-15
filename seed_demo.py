@@ -84,10 +84,17 @@ def seed_demo():
 
         timeline_type = ContentType.query.filter_by(name="Timeline").first()
         if not timeline_type:
-            timeline_type = ContentType(name="Timeline", description="Milestones", schema=[{"name": "year", "type": "number"}, {"name": "title", "type": "text"}])
+            timeline_type = ContentType(name="Timeline", description="Milestones", schema=[{"name": "year", "type": "number"}, {"name": "title", "type": "text"}, {"name": "description", "type": "textarea"}])
             timeline_type.insert()
         
-        db.session.add(ContentItem(content_type_id=timeline_type.id, data={"year": 1997, "title": "School Founded"}))
+        milestones = [
+            (1997, "Inception of IISS", "IISS came into existence in January 1997 with 8 classes and 180 students in Cassis, Port Louis."),
+            (1997, "First Ameer", "Ml Ikhlas Ahmad appointed as the 1st Ameer of IISS."),
+            (2005, "Steady Progress", "Significant growth in student population and academic facilities."),
+            (2026, "Current Status", "Today IISS hosts 36 classes with a school population of 650 students on the Cassis campus.")
+        ]
+        for year, title, desc in milestones:
+            db.session.add(ContentItem(content_type_id=timeline_type.id, data={"year": year, "title": title, "description": desc}))
 
         # Seed Teachers
         teachers = [{"name": "Ustadh Ahmed", "slug": "ustadh-ahmed", "years_active": "1997-Present", "subjects": "Islamic Studies", "bio": "A legendary educator."}]
