@@ -61,6 +61,14 @@ def portal():
         country = request.form.get("country")
         profession = request.form.get("profession")
 
+        try:
+            if int(year) <= 1996:
+                flash("Graduation year must be after 1996.", "danger")
+                return redirect(url_for('alumni.portal'))
+        except (ValueError, TypeError):
+            flash("Invalid graduation year.", "danger")
+            return redirect(url_for('alumni.portal'))
+
         if alumni_profile:
             alumni_profile.name = name
             alumni_profile.graduation_year = year

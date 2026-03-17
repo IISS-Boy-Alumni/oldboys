@@ -13,11 +13,11 @@
         <!-- Header -->
         <div class="flex flex-col md:flex-row items-center justify-between mb-16 space-y-8 md:space-y-0 border-b-4 border-primary/20 pb-12">
             <div>
-                <div class="inline-block px-4 py-1 bg-primary/20 border border-primary/30 rounded-full mb-4">
-                    <span class="text-primary text-[10px] font-black uppercase tracking-[0.4em]">Personal Dashboard</span>
+                <div class="inline-block px-6 py-2 bg-primary/30 border border-primary/40 rounded-full mb-6">
+                    <span class="text-secondary text-sm font-black uppercase tracking-[0.4em]">Personal Dashboard</span>
                 </div>
                 <h1 class="text-5xl md:text-6xl font-black text-secondary uppercase tracking-tighter leading-none">Alumni <span class="text-primary italic">Portal</span></h1>
-                <p class="text-slate-500 font-amiri text-2xl mt-4">Manage your global legacy and location</p>
+                <p class="text-secondary/80 font-amiri text-2xl mt-6">Manage your global legacy and location</p>
             </div>
             <div class="flex items-center gap-6">
                 <div class="w-20 h-20 rounded-[2rem] bg-secondary flex items-center justify-center text-primary font-black text-3xl border-4 border-primary shadow-2xl relative group overflow-hidden">
@@ -39,19 +39,19 @@
                 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
                     <div class="space-y-3">
-                        <label class="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] ml-6">Public Name</label>
+                        <label class="text-xs font-black text-secondary/60 uppercase tracking-[0.3em] ml-6">Public Name</label>
                         <input type="text" name="name" value="{{ alumni_record.name if alumni_record else '' }}" required
                                class="w-full bg-parchment/50 border-2 border-primary/10 rounded-2xl py-5 px-8 text-sm focus:ring-8 focus:ring-primary/5 focus:border-primary transition-all outline-none font-bold text-secondary placeholder:text-slate-300">
                     </div>
                     <div class="space-y-3">
-                        <label class="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] ml-6">Graduation Year</label>
-                        <input type="number" name="graduation_year" value="{{ alumni_record.graduation_year if alumni_record else '' }}" required
+                        <label class="text-xs font-black text-secondary/60 uppercase tracking-[0.3em] ml-6">Graduation Year</label>
+                        <input type="number" name="graduation_year" value="{{ alumni_record.graduation_year if alumni_record else '' }}" required min="1997"
                                class="w-full bg-parchment/50 border-2 border-primary/10 rounded-2xl py-5 px-8 text-sm focus:ring-8 focus:ring-primary/5 focus:border-primary transition-all outline-none font-bold text-secondary placeholder:text-slate-300">
                     </div>
                 </div>
 
                 <div class="space-y-3">
-                    <label class="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] ml-6">Profession</label>
+                    <label class="text-xs font-black text-secondary/60 uppercase tracking-[0.3em] ml-6">Profession</label>
                     <input type="text" name="profession" value="{{ alumni_record.profession if alumni_record else '' }}" required
                            class="w-full bg-parchment/50 border-2 border-primary/10 rounded-2xl py-5 px-8 text-sm focus:ring-8 focus:ring-primary/5 focus:border-primary transition-all outline-none font-bold text-secondary placeholder:text-slate-300">
                 </div>
@@ -63,14 +63,14 @@
                     <div class="relative z-10">
                         <div class="flex items-center gap-4 text-primary">
                             <i class="fas fa-globe-americas text-2xl"></i>
-                            <h4 class="text-sm font-black uppercase tracking-[0.2em]">Global Presence & Domicile</h4>
+                            <h4 class="text-base font-black uppercase tracking-[0.2em]">Global Presence & Domicile</h4>
                         </div>
-                        <p class="text-[10px] text-white/40 uppercase tracking-[0.2em] leading-relaxed mt-4 font-black">
+                        <p class="text-xs text-white/70 uppercase tracking-[0.2em] leading-relaxed mt-4 font-black">
                             These details determine your lantern's position on the global map.
                         </p>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-10 mt-10" x-data="{ country: '{{ alumni_record.country if alumni_record and alumni_record.country else default_country }}' }">
                             <div class="space-y-3">
-                                <label class="text-[10px] font-black text-primary/60 uppercase tracking-widest ml-6">Country</label>
+                                <label class="text-xs font-black text-primary/80 uppercase tracking-widest ml-6">Country</label>
                                 <select name="country" required x-model="country"
                                        class="w-full bg-white/5 border-2 border-white/10 rounded-2xl py-4 px-6 text-sm focus:ring-8 focus:ring-primary/10 focus:border-primary/50 transition-all outline-none font-bold text-white [&>option]:text-secondary">
                                     {% for country in countries %}
@@ -79,7 +79,7 @@
                                 </select>
                             </div>
                             <div class="space-y-3">
-                                <label class="text-[10px] font-black text-primary/60 uppercase tracking-widest ml-6">District / Region</label>
+                                <label class="text-xs font-black text-primary/80 uppercase tracking-widest ml-6">District / Region</label>
                                 
                                 <!-- Mauritius Districts Dropdown -->
                                 <select name="current_city" required x-show="country == 'Mauritius'"

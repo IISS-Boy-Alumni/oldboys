@@ -1,0 +1,29 @@
+<svg width="500" height="500" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background Circle (Subtle) -->
+  <circle cx="250" cy="250" r="240" fill="#ffffff" />
+  
+  <!-- Outer Decorative Islamic Star (Rub el Hizb) -->
+  <path d="M250 20 L295 105 L385 115 L330 185 L385 255 L330 325 L385 395 L295 405 L250 490 L205 405 L115 395 L170 325 L115 255 L170 185 L115 115 L205 105 Z" 
+        fill="none" stroke="#D4AF37" stroke-width="8" stroke-linejoin="round" />
+  
+  <!-- Inner Circle Frame -->
+  <circle cx="250" cy="250" r="180" fill="none" stroke="#0F172A" stroke-width="4" />
+  
+  <!-- Open Book Icon (Symbolizing Knowledge) -->
+  <g transform="translate(175, 180) scale(1.5)">
+    <path d="M0 80 Q50 70 100 80 Q150 70 200 80 L200 10 L150 0 Q100 10 50 0 Q0 10 0 10 Z" fill="#D4AF37" opacity="0.9" />
+    <path d="M100 10 L100 80" stroke="#0F172A" stroke-width="2" fill="none" />
+  </g>
+
+  <!-- Text: IISS -->
+  <text x="250" y="380" font-family="serif" font-size="70" font-weight="900" fill="#0F172A" text-anchor="middle" letter-spacing="10">IISS</text>
+  
+  <!-- Est. 1997 -->
+  <text x="250" y="420" font-family="sans-serif" font-size="16" font-weight="bold" fill="#D4AF37" text-anchor="middle" letter-spacing="4">EST. 1997</text>
+  
+  <!-- Decorative Dots -->
+  <circle cx="250" cy="50" r="5" fill="#D4AF37" />
+  <circle cx="250" cy="450" r="5" fill="#D4AF37" />
+  <circle cx="50" cy="250" r="5" fill="#D4AF37" />
+  <circle cx="450" cy="250" r="5" fill="#D4AF37" />
+</svg>
