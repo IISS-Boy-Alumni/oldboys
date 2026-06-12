@@ -4,8 +4,8 @@
       "password": "pass"
     },
     "settings": {
-      "APP_NAME": "Demo",
-      "ACTIVE_FRONT_THEME": "editorial",
+      "APP_NAME": "IISS",
+      "ACTIVE_FRONT_THEME": "oldboys",
       "ACTIVE_BACK_THEME": "sneat",
       "SITE_TITLE": "My site",
       "SITE_DESCRIPTION": "description",
