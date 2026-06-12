@@ -1,0 +1,115 @@
+{% extends 'oldboys/base.html' %}
+
+{% block title %}Alumni Portal{% endblock %}
+
+{% block body %}
+<section class="bg-parchment py-24 min-h-screen relative bg-andalusian-light overflow-hidden">
+    <!-- Subtle Top-Level Geometric Grid -->
+    <div class="absolute inset-0 opacity-25 pointer-events-none">
+        <div class="w-full h-full bg-geometric-subtle"></div>
+    </div>
+
+    <div class="max-w-4xl mx-auto px-4 relative z-10">
+        <!-- Header -->
+        <div class="flex flex-col md:flex-row items-center justify-between mb-16 space-y-8 md:space-y-0 border-b-4 border-primary/20 pb-12">
+            <div>
+                <div class="inline-block px-6 py-2 bg-primary/30 border border-primary/40 rounded-full mb-6">
+                    <span class="text-secondary text-sm font-black uppercase tracking-[0.4em]">Personal Dashboard</span>
+                </div>
+                <h1 class="text-5xl md:text-6xl font-black text-secondary uppercase tracking-tighter leading-none">Alumni <span class="text-primary italic">Portal</span></h1>
+                <p class="text-secondary/80 font-amiri text-2xl mt-6">Manage your global legacy and location</p>
+            </div>
+            <div class="flex items-center gap-6">
+                <div class="w-20 h-20 rounded-[2rem] bg-secondary flex items-center justify-center text-primary font-black text-3xl border-4 border-primary shadow-2xl relative group overflow-hidden">
+                    <!-- Inner Geometric Pattern for Icon -->
+                    <div class="absolute inset-0 opacity-10 pointer-events-none bg-geometric-subtle"></div>
+                    <span class="relative z-10">{{ current_user.email[0]|upper }}</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Form Card -->
+        <div class="bg-white/80 backdrop-blur-md rounded-[4rem] p-12 md:p-20 shadow-2xl border border-primary/10 relative overflow-hidden group">
+            <!-- Inner Geometric Pattern -->
+            <div class="absolute inset-0 opacity-[0.03] pointer-events-none bg-geometric-subtle"></div>
+            <div class="absolute top-0 right-0 w-56 h-56 bg-primary/5 rounded-bl-full group-hover:bg-primary/10 transition-colors duration-700"></div>
+            
+            <form method="POST" class="space-y-12 relative z-10">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+                    <div class="space-y-3">
+                        <label class="text-xs font-black text-secondary/60 uppercase tracking-[0.3em] ml-6">Public Name</label>
+                        <input type="text" name="name" value="{{ alumni_record.name if alumni_record else '' }}" required
+                               class="w-full bg-parchment/50 border-2 border-primary/10 rounded-2xl py-5 px-8 text-sm focus:ring-8 focus:ring-primary/5 focus:border-primary transition-all outline-none font-bold text-secondary placeholder:text-slate-300">
+                    </div>
+                    <div class="space-y-3">
+                        <label class="text-xs font-black text-secondary/60 uppercase tracking-[0.3em] ml-6">Graduation Year</label>
+                        <input type="number" name="graduation_year" value="{{ alumni_record.graduation_year if alumni_record else '' }}" required min="1997"
+                               class="w-full bg-parchment/50 border-2 border-primary/10 rounded-2xl py-5 px-8 text-sm focus:ring-8 focus:ring-primary/5 focus:border-primary transition-all outline-none font-bold text-secondary placeholder:text-slate-300">
+                    </div>
+                </div>
+
+                <div class="space-y-3">
+                    <label class="text-xs font-black text-secondary/60 uppercase tracking-[0.3em] ml-6">Profession</label>
+                    <input type="text" name="profession" value="{{ alumni_record.profession if alumni_record else '' }}" required
+                           class="w-full bg-parchment/50 border-2 border-primary/10 rounded-2xl py-5 px-8 text-sm focus:ring-8 focus:ring-primary/5 focus:border-primary transition-all outline-none font-bold text-secondary placeholder:text-slate-300">
+                </div>
+
+                <div class="bg-secondary rounded-[3rem] p-10 md:p-12 border-b-8 border-primary/30 space-y-8 relative overflow-hidden bg-andalusian-dark shadow-2xl">
+                    <!-- Inner Geometric Pattern -->
+                    <div class="absolute inset-0 opacity-10 pointer-events-none bg-geometric-subtle"></div>
+                    
+                    <div class="relative z-10">
+                        <div class="flex items-center gap-4 text-primary">
+                            <i class="fas fa-globe-americas text-2xl"></i>
+                            <h4 class="text-base font-black uppercase tracking-[0.2em]">Global Presence & Domicile</h4>
+                        </div>
+                        <p class="text-xs text-white/70 uppercase tracking-[0.2em] leading-relaxed mt-4 font-black">
+                            These details determine your lantern's position on the global map.
+                        </p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-10 mt-10" x-data="{ country: '{{ alumni_record.country if alumni_record and alumni_record.country else default_country }}' }">
+                            <div class="space-y-3">
+                                <label class="text-xs font-black text-primary/80 uppercase tracking-widest ml-6">Country</label>
+                                <select name="country" required x-model="country"
+                                       class="w-full bg-white/5 border-2 border-white/10 rounded-2xl py-4 px-6 text-sm focus:ring-8 focus:ring-primary/10 focus:border-primary/50 transition-all outline-none font-bold text-white [&>option]:text-secondary">
+                                    {% for country in countries %}
+                                        <option value="{{ country }}">{{ country }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="space-y-3">
+                                <label class="text-xs font-black text-primary/80 uppercase tracking-widest ml-6">District / Region</label>
+                                
+                                <!-- Mauritius Districts Dropdown -->
+                                <select name="current_city" required x-show="country == 'Mauritius'"
+                                       class="w-full bg-white/5 border-2 border-white/10 rounded-2xl py-4 px-6 text-sm focus:ring-8 focus:ring-primary/10 focus:border-primary/50 transition-all outline-none font-bold text-white [&>option]:text-secondary">
+                                    <option value="">Select District</option>
+                                    {% for district in districts %}
+                                        <option value="{{ district }}" {% if alumni_record and alumni_record.current_city == district %}selected{% endif %}>{{ district }}</option>
+                                    {% endfor %}
+                                </select>
+
+                                <!-- Other Countries Text Input -->
+                                <input type="text" name="current_city" x-show="country != 'Mauritius'"
+                                       :required="country != 'Mauritius'"
+                                       value="{{ alumni_record.current_city if alumni_record else '' }}"
+                                       class="w-full bg-white/5 border-2 border-white/10 rounded-2xl py-4 px-6 text-sm focus:ring-8 focus:ring-primary/10 focus:border-primary/50 transition-all outline-none font-bold text-white placeholder:text-white/20">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pt-8 flex flex-col md:flex-row gap-6 relative z-10">
+                    <button type="submit" class="flex-1 bg-primary text-secondary font-black py-6 px-10 rounded-2xl hover:bg-white hover:scale-[1.02] transition-all shadow-2xl shadow-primary/20 uppercase tracking-[0.3em] text-xs border-b-4 border-secondary/20 duration-500">
+                        Update My Global Profile
+                    </button>
+                    <a href="{{ url_for('oldboys_alumni.index') }}" class="px-10 py-6 bg-slate-100 rounded-2xl text-slate-500 font-black uppercase tracking-widest text-xs hover:bg-slate-200 transition-all text-center flex items-center justify-center gap-3">
+                        <i class="fas fa-eye"></i> View on Map
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+{% endblock %}

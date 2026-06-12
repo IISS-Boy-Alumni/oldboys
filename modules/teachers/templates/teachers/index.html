@@ -1,0 +1,82 @@
+{% extends 'oldboys/base.html' %}
+
+{% block title %}Teachers' Tribute & Legacy{% endblock %}
+
+{% block body %}
+<section class="bg-parchment py-24 min-h-screen relative bg-pattern-hexagon overflow-hidden">
+    <div class="max-w-7xl mx-auto px-4 relative z-10">
+        <!-- Header -->
+        <div class="mb-24 text-center space-y-8">
+            <h1 class="text-6xl md:text-8xl font-black text-secondary uppercase tracking-tighter font-heading heading-underline pb-4">Teachers' <span class="text-primary italic">Legacy</span></h1>
+            <div class="mt-8 flex items-center justify-center gap-4 text-primary font-sans italic">
+                <span class="text-xl">✧</span>
+                <span class="text-xs font-black uppercase tracking-[0.4em]">Honoring Our Mentors</span>
+                <span class="text-xl">✧</span>
+            </div>
+            <p class="text-slate-600 font-amiri text-2xl max-w-3xl mx-auto leading-relaxed italic opacity-90 mt-10">
+                "Celebrating the educators who dedicated their lives to shaping the future of Old Boys Islamic School. Explore their journeys and leave a message of gratitude."
+            </p>
+            
+            <!-- Search Bar -->
+            <form method="GET" class="max-w-2xl mx-auto relative group">
+                <input type="text" name="search" value="{{ search }}" placeholder="Search by teacher name or subject..." 
+                       class="relative w-full bg-white/90 border border-primary/30 rounded-sm py-6 px-10 pr-20 text-lg focus:border-primary transition-all outline-none font-bold text-secondary shadow-xl backdrop-blur-sm manuscript-frame">
+                <button type="submit" class="absolute right-4 top-1/2 -translate-y-1/2 w-14 h-14 bg-secondary text-primary rounded-sm flex items-center justify-center hover:bg-primary hover:text-secondary transition-all shadow-lg border border-primary/20">
+                    <i class="fas fa-search text-xl"></i>
+                </button>
+            </form>
+        </div>
+
+        <!-- Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-16">
+            {% for teacher in teachers %}
+            <a href="{{ url_for('oldboys_teachers.profile', slug=teacher.slug) }}" class="group bg-white rounded-sm overflow-hidden shadow-xl hover:-translate-y-4 transition-all duration-700 border-l-4 border-primary/40 flex flex-col relative manuscript-frame hover:border-primary">                <!-- Inner Geometric Pattern for Card -->
+                <div class="absolute inset-0 opacity-[0.02] pointer-events-none bg-pattern-girih"></div>
+                
+                <div class="p-12 space-y-8 relative z-10 flex-1">
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="px-5 py-1 bg-secondary text-primary text-[8px] font-black uppercase tracking-[0.4em] border border-primary/20 shadow-sm font-sans">
+                                Years: {{ teacher.years_active }}
+                            </span>
+                            <span class="text-primary text-xl">✧</span>
+                        </div>
+                        <h3 class="text-5xl font-black text-secondary uppercase leading-none group-hover:text-primary transition-colors duration-500 font-heading">{{ teacher.name }}</h3>
+                        <p class="text-primary/60 font-black text-[10px] uppercase tracking-[0.5em] font-sans italic border-b border-primary/10 pb-4">Our Distinguished Mentor</p>
+                    </div>
+
+                    <div class="space-y-4">
+                        <p class="text-secondary font-bold text-2xl font-amiri italic opacity-90 leading-relaxed">{{ teacher.subjects }}</p>
+                    </div>
+                </div>
+
+                <div class="px-12 py-8 bg-slate-50 border-t border-primary/5 flex items-center justify-between group-hover:bg-primary/5 transition-colors">
+                    <div class="flex items-center gap-3">
+                        <span class="text-[9px] font-black text-primary uppercase tracking-[0.4em] group-hover:translate-x-2 transition-transform duration-500 font-sans">View Full Profile & Tributes ✧</span>
+                    </div>
+                    
+                    <div class="flex -space-x-3">
+                        {% for tribute in teacher.tributes[:3] %}
+                        <div class="w-10 h-10 rounded-full bg-white border border-primary/20 flex items-center justify-center text-xs font-black text-secondary shadow-sm hover:z-10 hover:scale-110 transition-transform cursor-default font-sans" title="{{ tribute.alumni_name }}">
+                            {{ tribute.alumni_name[0] }}
+                        </div>
+                        {% endfor %}
+                        {% if teacher.tributes|length > 3 %}
+                        <div class="w-10 h-10 rounded-full bg-secondary border border-primary/20 flex items-center justify-center text-[10px] font-black text-primary shadow-sm font-sans">
+                            +{{ teacher.tributes|length - 3 }}
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </a>
+            {% else %}
+            <div class="col-span-full py-48 text-center bg-white/50 backdrop-blur-sm rounded-sm border-2 border-dashed border-primary/20">
+                <p class="text-2xl font-black text-secondary/40 uppercase tracking-widest font-sans">No teacher profiles found.</p>
+                <p class="text-slate-400 font-amiri mt-4 italic">Try adjusting your search terms.</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}
+

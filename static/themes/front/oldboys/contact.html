@@ -1,0 +1,91 @@
+{% extends 'oldboys/base.html' %}
+
+{% block title %}Contact Us{% endblock %}
+
+{% block body %}
+<section class="bg-parchment py-32 min-h-screen relative bg-pattern-hexagon overflow-hidden">
+    <div class="max-w-7xl mx-auto px-4 relative z-10">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
+            
+            <!-- Info -->
+            <div class="space-y-16">
+                <div class="space-y-8">
+                    <h1 class="text-6xl md:text-7xl font-black text-secondary uppercase tracking-tighter leading-none font-heading heading-underline pb-4">Get in <span class="text-primary italic">Touch</span></h1>
+                    <div class="mt-4 flex items-center gap-4 text-primary font-sans italic">
+                        <span class="text-xl">✧</span>
+                        <span class="text-[10px] font-black uppercase tracking-[0.4em]">Connect with our Community</span>
+                        <span class="text-xl">✧</span>
+                    </div>
+                    <p class="text-slate-600 font-amiri text-2xl leading-relaxed max-w-xl italic opacity-90 mt-8">
+                        "Whether you are an alumnus looking to reconnect, a prospective parent, or a community partner, we would love to hear from you."
+                    </p>
+                </div>
+
+                <div class="space-y-10">
+                    <div class="flex items-start gap-8 group">
+                        <div class="w-16 h-16 bg-white rounded-sm flex items-center justify-center text-primary text-2xl border border-primary/20 shadow-sm group-hover:bg-primary group-hover:text-secondary transition-all duration-500 manuscript-frame">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div class="space-y-2">
+                            <h4 class="text-[10px] font-black uppercase tracking-[0.3em] text-primary/60 font-sans italic">Our Sanctuary</h4>
+                            <p class="font-black text-secondary text-lg font-sans">123 School Lane, Heritage City, HC 4567</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start gap-8 group">
+                        <div class="w-16 h-16 bg-white rounded-sm flex items-center justify-center text-primary text-2xl border border-primary/20 shadow-sm group-hover:bg-primary group-hover:text-secondary transition-all duration-500 manuscript-frame">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div class="space-y-2">
+                            <h4 class="text-[10px] font-black uppercase tracking-[0.3em] text-primary/60 font-sans italic">Digital Correspondence</h4>
+                            <p class="font-black text-secondary text-lg font-sans">info@oldboysschool.edu</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start gap-8 group">
+                        <div class="w-16 h-16 bg-white rounded-sm flex items-center justify-center text-primary text-2xl border border-primary/20 shadow-sm group-hover:bg-primary group-hover:text-secondary transition-all duration-500 manuscript-frame">
+                            <i class="fas fa-phone"></i>
+                        </div>
+                        <div class="space-y-2">
+                            <h4 class="text-[10px] font-black uppercase tracking-[0.3em] text-primary/60 font-sans italic">Voice Line</h4>
+                            <p class="font-black text-secondary text-lg font-sans">+1 (234) 567-8900</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Form -->
+            <div class="bg-white/90 backdrop-blur-sm p-12 md:p-16 shadow-2xl border border-primary/10 relative overflow-hidden group manuscript-frame inherit-radius arch-card">
+                <!-- Inner Geometric Pattern -->
+                <div class="absolute inset-0 opacity-[0.03] pointer-events-none bg-pattern-girih"></div>
+                <div class="absolute top-0 right-0 w-48 h-48 bg-primary/5 rounded-bl-full group-hover:bg-primary/10 transition-colors duration-700"></div>
+                
+                <form action="{{ url_for('contact.validate_message') }}" method="POST" class="space-y-8 relative z-10">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div class="space-y-3">
+                            <label class="text-[10px] font-black text-secondary uppercase tracking-[0.4em] ml-2 font-sans italic">Full Name</label>
+                            {{ form.name(class="w-full bg-parchment/30 border-b border-primary/30 rounded-none py-4 px-2 text-sm focus:border-primary transition-all outline-none font-bold text-secondary placeholder:text-slate-400") }}
+                        </div>
+                        <div class="space-y-3">
+                            <label class="text-[10px] font-black text-secondary uppercase tracking-[0.4em] ml-2 font-sans italic">Email Address</label>
+                            {{ form.email(class="w-full bg-parchment/30 border-b border-primary/30 rounded-none py-4 px-2 text-sm focus:border-primary transition-all outline-none font-bold text-secondary placeholder:text-slate-400") }}
+                        </div>
+                    </div>
+
+                    <div class="space-y-3">
+                        <label class="text-[10px] font-black text-secondary uppercase tracking-[0.4em] ml-2 font-sans italic">Your Message</label>
+                        {{ form.message(class="w-full bg-parchment/30 border border-primary/10 rounded-sm py-5 px-6 text-lg focus:border-primary transition-all outline-none font-amiri min-h-[180px] text-secondary placeholder:text-slate-400 leading-relaxed italic") }}
+                    </div>
+
+                    <button type="submit" class="w-full bg-secondary text-primary font-black py-6 px-10 rounded-sm hover:bg-primary hover:text-secondary transition-all shadow-xl uppercase tracking-[0.4em] text-xs manuscript-frame font-sans">
+                        Deliver Correspondence
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+

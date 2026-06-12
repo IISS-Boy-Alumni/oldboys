@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en" x-data="{ mobileMenu: false }">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock %} - {{ get_setting('SITE_TITLE') }}</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400;1,700&family=Scheherazade+New:wght@400;700&family=Montserrat:wght@300;400;700;900&display=swap" rel="stylesheet">
+    
+    <!-- Scripts -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#D4AF37', // Antique Gold
+                        secondary: '#1A4D3E', // Deep Mosque Green
+                        accent: '#8B4513', // Warm Bronze
+                        parchment: '#FDF5E6', // Aged Parchment
+                        indigo: '#1B263B', // Dark Indigo
+                        turquoise: '#16A085', // Muted Turquoise
+                        terracotta: '#C0392B', // Terracotta
+                        schooltext: '#2C3E50',
+                    },
+                    fontFamily: {
+                        amiri: ['Amiri', 'serif'],
+                        heading: ['Scheherazade New', 'serif'],
+                        sans: ['Montserrat', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        [x-cloak] { display: none !important; }
+        body { font-family: 'Amiri', serif; background-color: #FDF5E6; color: #2C3E50; scroll-behavior: smooth; }
+        h1, h2, h3, h4, h5, h6 { font-family: 'Scheherazade New', serif; line-height: 1.4; }
+        
+        /* Subtle Manuscript Underline */
+        .heading-underline {
+            position: relative;
+            display: inline-block;
+        }
+        .heading-underline::after {
+            content: "";
+            position: absolute;
+            left: 50%;
+            bottom: -10px;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #D4AF37, transparent);
+        }
+
+        /* 1. Subtle Islamic Geometry Backgrounds */
+        .bg-pattern-khatam {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Cpath d='M30 0 L35 25 L60 30 L35 35 L30 60 L25 35 L0 30 L25 25 Z' fill='none' stroke='%23D4AF37' stroke-width='0.5' opacity='0.05'/%3E%3C/svg%3E");
+        }
+        
+        .bg-pattern-girih {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cpath d='M40 0 L50 30 L80 40 L50 50 L40 80 L30 50 L0 40 L30 30 Z M0 0 L20 20 M80 0 L60 20 M80 80 L60 60 M0 80 L20 60' fill='none' stroke='%23D4AF37' stroke-width='0.5' opacity='0.04'/%3E%3C/svg%3E");
+        }
+
+        .bg-pattern-hexagon {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='100' viewBox='0 0 56 100'%3E%3Cpath d='M28 66 L0 50 L0 16 L28 0 L56 16 L56 50 L28 66 L28 100' fill='none' stroke='%23D4AF37' stroke-width='0.5' opacity='0.05'/%3E%3C/svg%3E");
+        }
+
+        /* 2. Arch-Based Layout Motifs - More subtle */
+        .arch-top {
+            border-top-left-radius: 50% 40%;
+            border-top-right-radius: 50% 40%;
+        }
+        
+        .arch-card {
+            border-top-left-radius: 50% 25%;
+            border-top-right-radius: 50% 25%;
+        }
+
+        /* 3. Manuscript-Inspired Content Frames */
+        .manuscript-frame {
+            border: 1px solid #D4AF37;
+            padding: 2px;
+            position: relative;
+        }
+        .manuscript-frame::before {
+            content: "";
+            position: absolute;
+            top: 4px; left: 4px; right: 4px; bottom: 4px;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            pointer-events: none;
+        }
+
+        /* For elements that should inherit arch curve */
+        .manuscript-frame.inherit-radius,
+        .manuscript-frame.inherit-radius::before {
+            border-radius: inherit;
+        }
+
+        .manuscript-corner {
+            position: relative;
+        }
+        .manuscript-corner::before, .manuscript-corner::after {
+            content: "✧";
+            position: absolute;
+            color: #D4AF37;
+            font-size: 12px;
+            opacity: 0.6;
+        }
+        .manuscript-corner::before { top: 5px; left: 5px; }
+        .manuscript-corner::after { bottom: 5px; right: 5px; }
+
+        /* 4. Islamic Pattern Section Dividers */
+        .divider-islamic {
+            height: 16px;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='16' viewBox='0 0 40 16'%3E%3Ccircle cx='20' cy='8' r='2' fill='%23D4AF37'/%3E%3Cpath d='M0 8 L16 8 M24 8 L40 8' stroke='%23D4AF37' stroke-width='0.5'/%3E%3C/svg%3E");
+            background-repeat: repeat-x;
+            width: 100%;
+            margin: 2rem 0;
+            opacity: 0.5;
+        }
+
+        /* 10. Microinteractions */
+        .hover-gold-grow {
+            position: relative;
+        }
+        .hover-gold-grow::after {
+            content: "";
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background-color: #D4AF37;
+            transition: width 0.3s ease;
+        }
+        .hover-gold-grow:hover::after {
+            width: 100%;
+        }
+
+        .card-elevate {
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+        .card-elevate:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(26, 77, 62, 0.1);
+        }
+
+        /* 11. Footer Design Elements */
+        .footer-geometric-band {
+            height: 12px;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='12' viewBox='0 0 24 12'%3E%3Cpath d='M0 6 L6 0 L12 6 L6 12 Z M12 6 L18 0 L24 6 L18 12 Z' fill='%23D4AF37' opacity='0.4'/%3E%3C/svg%3E");
+            background-repeat: repeat-x;
+        }
+
+    </style>
+    {% block head %}{% endblock %}
+</head>
+<body class="min-h-screen flex flex-col antialiased bg-pattern-hexagon">
+
+    <!-- Header -->
+    <header class="bg-secondary text-white sticky top-0 z-50 shadow-lg border-b-2 border-primary">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-24">
+                <div class="flex items-center gap-4 group cursor-pointer" onclick="window.location='/'">
+                    <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center p-2 border-2 border-primary overflow-hidden shadow-inner transform group-hover:rotate-12 transition-transform">
+                        <img src="/static/iiss_logo.svg" alt="School Logo" class="w-full h-full">
+                    </div>
+                    <div class="flex flex-col">
+                        <span class="text-xl font-black tracking-tight uppercase leading-none font-sans">{{ get_setting('APP_NAME') }}</span>
+                        <span class="text-[10px] font-bold text-primary uppercase tracking-[0.3em] mt-1 italic font-sans">Knowledge is Light</span>
+                    </div>
+                </div>
+
+                <!-- Desktop Nav -->
+                <nav class="hidden md:flex items-center gap-8">
+                    <a href="/" class="text-xs font-black uppercase tracking-widest hover:text-primary transition-colors hover-gold-grow">Home</a>
+                    <a href="/shopyo-page/s/about-us" class="text-xs font-black uppercase tracking-widest hover:text-primary transition-colors hover-gold-grow">About</a>
+                    <a href="{{ url_for('oldboys_alumni.index') }}" class="text-xs font-black uppercase tracking-widest hover:text-primary transition-colors hover-gold-grow">Alumni Map</a>
+                    <a href="/contact/" class="text-xs font-black uppercase tracking-widest hover:text-primary transition-colors hover-gold-grow">Contact</a>
+                    
+                    {% if current_user.is_authenticated %}
+                        <a href="/alumni/portal" class="text-xs font-black uppercase tracking-widest hover:text-primary transition-colors hover-gold-grow">Profile</a>
+                        <a href="{{ url_for('shopyo_auth.logout') }}" class="px-6 py-2 bg-primary text-secondary rounded-sm text-[10px] font-black uppercase tracking-widest hover:bg-white transition-all shadow-md manuscript-frame">Logout</a>
+                    {% else %}
+                        <a href="{{ url_for('shopyo_auth.register') }}" class="text-xs font-black uppercase tracking-widest hover:text-primary transition-colors hover-gold-grow">Register</a>
+                        <a href="{{ url_for('shopyo_auth.login') }}" class="px-6 py-2 bg-primary text-secondary rounded-sm text-[10px] font-black uppercase tracking-widest hover:bg-white transition-all shadow-md manuscript-frame">Login</a>
+                    {% endif %}
+                </nav>
+
+                <!-- Mobile menu button -->
+                <div class="md:hidden flex items-center">
+                    <button @click="mobileMenu = !mobileMenu" class="text-primary text-2xl focus:outline-none">
+                        <i class="fas" :class="mobileMenu ? 'fa-times' : 'fa-bars'"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Nav -->
+        <div x-show="mobileMenu" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 -translate-y-4" x-transition:enter-end="opacity-100 translate-y-0" x-cloak class="md:hidden bg-secondary border-t border-primary/20">
+            <div class="px-4 pt-4 pb-8 space-y-4">
+                <a href="/" class="block text-sm font-bold uppercase tracking-widest text-white hover:text-primary">Home</a>
+                <a href="/shopyo-page/s/about-us" class="block text-sm font-bold uppercase tracking-widest text-white hover:text-primary">About</a>
+                <a href="{{ url_for('oldboys_alumni.index') }}" class="block text-sm font-bold uppercase tracking-widest text-white hover:text-primary">Alumni Map</a>
+                <a href="/contact/" class="block text-sm font-bold uppercase tracking-widest text-white hover:text-primary">Contact</a>
+                
+                {% if current_user.is_authenticated %}
+                    <a href="/alumni/portal" class="block text-sm font-bold uppercase tracking-widest text-white hover:text-primary">Profile</a>
+                    <a href="{{ url_for('shopyo_auth.logout') }}" class="inline-block px-8 py-3 bg-primary text-secondary rounded-sm text-xs font-black uppercase tracking-widest">Logout</a>
+                {% else %}
+                    <a href="{{ url_for('shopyo_auth.register') }}" class="block text-sm font-bold uppercase tracking-widest text-white hover:text-primary">Register</a>
+                    <a href="{{ url_for('shopyo_auth.login') }}" class="inline-block px-8 py-3 bg-primary text-secondary rounded-sm text-xs font-black uppercase tracking-widest">Login</a>
+                {% endif %}
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-1 relative">
+        <!-- Flash Messages -->
+        <div class="absolute top-0 left-0 right-0 z-40 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-4 pointer-events-none">
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    {% for message in messages %}
+                        <div x-data="{ show: true }" x-show="show" x-init="setTimeout(() => show = false, 5000)" 
+                             class="relative mb-4 p-4 rounded-sm border border-primary/20 bg-white/80 backdrop-blur-sm shadow-xl manuscript-frame transition-all duration-500 pointer-events-auto"
+                             x-transition:leave="opacity-0 translate-y-4">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center gap-3">
+                                    <span class="text-primary">✧</span>
+                                    <div class="text-sm font-bold uppercase tracking-widest text-secondary font-sans">
+                                        {{ message | safe }}
+                                    </div>
+                                </div>
+                                <button @click="show = false" class="text-primary/40 hover:text-primary transition-colors">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+        </div>
+        {% block body %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-indigo text-white pt-20 pb-12 relative overflow-hidden bg-pattern-girih">
+        <div class="footer-geometric-band absolute top-0 left-0 w-full"></div>
+        
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-16 mb-16">
+                <div class="space-y-6">
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 bg-white rounded-sm flex items-center justify-center p-2 border border-primary">
+                            <img src="/static/iiss_logo.svg" alt="Logo" class="w-full h-full">
+                        </div>
+                        <span class="text-lg font-black uppercase tracking-tight font-sans">{{ get_setting('APP_NAME') }}</span>
+                    </div>
+                    <p class="text-slate-300 text-lg leading-relaxed font-amiri italic opacity-80">
+                        لَا خَیْرَ فِیْ كَثِیْرٍ مِّنْ نَّجْوٰىهُمْ اِلَّا مَنْ اَمَرَ بِصَدَقَةٍ اَوْ مَعْرُوْفٍ اَوْ اِصْلَاحٍ بَیْنَ النَّاسِؕ-وَ مَنْ یَّفْعَلْ ذٰلِكَ ابْتِغَآءَ مَرْضَاتِ اللّٰهِ فَسَوْفَ نُؤْتِیْهِ اَجْرًا عَظِیْمًا(٤-١١٤)
+                    </p>
+                    <p class="text-slate-400 text-sm leading-relaxed font-amiri">
+                        Dedicated to preserving the heritage and fostering the future of our alumni community.
+                    </p>
+                </div>
+                
+                <div>
+                    <h4 class="text-primary font-black uppercase tracking-widest text-xs mb-8 flex items-center gap-2">
+                        <span class="w-8 h-[1px] bg-primary/30"></span> Quick Links
+                    </h4>
+                    <ul class="space-y-4 text-sm text-slate-400 font-bold uppercase tracking-widest">
+                        <li><a href="{{ url_for('oldboys_alumni.index') }}" class="hover:text-primary transition-colors flex items-center gap-2">✧ Alumni Map</a></li>
+                        <li><a href="{{ url_for('oldboys_timeline.index') }}" class="hover:text-primary transition-colors flex items-center gap-2">✧ School Timeline</a></li>
+                        <li><a href="{{ url_for('oldboys_teachers.index') }}" class="hover:text-primary transition-colors flex items-center gap-2">✧ Teachers Tribute</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-primary font-black uppercase tracking-widest text-xs mb-8 flex items-center gap-2">
+                        <span class="w-8 h-[1px] bg-primary/30"></span> Connect
+                    </h4>
+                    <div class="flex gap-4 mb-8">
+                        <a href="#" class="w-10 h-10 rounded-sm border border-primary/20 flex items-center justify-center hover:bg-primary hover:text-secondary transition-all"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="w-10 h-10 rounded-sm border border-primary/20 flex items-center justify-center hover:bg-primary hover:text-secondary transition-all"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="w-10 h-10 rounded-sm border border-primary/20 flex items-center justify-center hover:bg-primary hover:text-secondary transition-all"><i class="fab fa-instagram"></i></a>
+                    </div>
+                    <div class="p-4 border border-primary/10 bg-secondary/20 rounded-sm">
+                        <p class="text-[10px] text-primary/60 font-bold uppercase tracking-widest leading-relaxed">
+                            Old Boys Islamic School<br>
+                            Legacy Office, Main Campus
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4">
+                <p class="text-[10px] text-slate-500 font-bold uppercase tracking-widest">
+                    &copy; {{ current_year }} {{ get_setting('APP_NAME') }}.
+                </p>
+                <div class="text-primary/40 text-xl">
+                    ✧ ✧ ✧
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    {% block scripts %}{% endblock %}
+</body>
+</html>
+

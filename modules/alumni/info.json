@@ -1,0 +1,12 @@
+{
+    "display_string": "Alumni",
+    "module_name": "alumni",
+    "type": "show",
+    "fa-icon": "fas fa-user-graduate",
+    "url_prefix": "/alumni",
+    "author": {
+        "name": "PythonCMS",
+        "website": "",
+        "mail": ""
+    }
+}

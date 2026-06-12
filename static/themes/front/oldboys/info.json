@@ -1,0 +1,7 @@
+{
+    "name": "Old Boys",
+    "author": "PythonCMS",
+    "version": "1.0.0",
+    "description": "Islamic School Alumni Theme",
+    "required_files": ["index.html", "contact.html", "page.html"]
+}

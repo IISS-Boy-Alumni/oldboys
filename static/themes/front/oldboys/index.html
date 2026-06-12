@@ -1,0 +1,185 @@
+{% extends 'oldboys/base.html' %}
+
+{% block title %}Welcome{% endblock %}
+
+{% block body %}
+<!-- Hero Section -->
+<section class="relative min-h-[90vh] flex flex-col items-center justify-center overflow-hidden bg-secondary bg-pattern-girih">
+    <!-- Subtle Gradient Overlay -->
+    <div class="absolute inset-0 bg-gradient-to-b from-secondary/80 via-secondary to-secondary"></div>
+    
+    <div class="relative max-w-5xl mx-auto px-4 text-center z-10 py-32">
+        <!-- Badge -->
+        <div class="inline-flex items-center gap-4 px-6 py-2 bg-primary/5 border border-primary/20 rounded-sm mb-12 backdrop-blur-sm">
+            <span class="text-primary text-[10px] font-black uppercase tracking-[0.5em] font-sans">Est. 1997 • Legacy of Excellence</span>
+        </div>
+        
+        <!-- Main Title with Arch Influence -->
+        <div class="mb-12 relative inline-block">
+            <h1 class="text-6xl md:text-9xl font-black text-white uppercase tracking-tighter leading-none mb-4 font-heading">
+                Honoring the <br>
+                <span class="text-primary italic heading-underline">Legacy</span>
+            </h1>
+        </div>
+
+        <p class="max-w-4xl mx-auto text-2xl md:text-3xl text-slate-200 font-amiri leading-relaxed mb-8 opacity-95 italic">
+            لَا خَیْرَ فِیْ كَثِیْرٍ مِّنْ نَّجْوٰىهُمْ اِلَّا مَنْ اَمَرَ بِصَدَقَةٍ اَوْ مَعْرُوْفٍ اَوْ اِصْلَاحٍ بَیْنَ النَّاسِؕ-وَ مَنْ یَّفْعَلْ ذٰلِكَ ابْتِغَآءَ مَرْضَاتِ اللّٰهِ فَسَوْفَ نُؤْتِیْهِ اَجْرًا عَظِیْمًا(٤-١١٤)
+        </p>
+        <p class="max-w-3xl mx-auto text-sm md:text-base text-primary/80 font-sans uppercase tracking-[0.2em] leading-relaxed mb-16 opacity-90 font-bold italic">
+            "There is no goodness in most of their secret consultations except for those who advise regarding charity or good deeds (ma'roof) or reconciliation between people. And whosoever does this seeking the pleasure of Allah, soon We shall endow him with great reward."
+        </p>
+
+        <!-- CTA Buttons with Manuscript Styling -->
+        <div class="flex flex-wrap justify-center gap-8 mb-24">
+            <a href="{{ url_for('oldboys_alumni.index') }}" class="px-12 py-5 bg-primary text-secondary rounded-sm font-black uppercase tracking-widest hover:bg-white hover:scale-105 transition-all shadow-2xl manuscript-frame group">
+                Alumni Map <i class="fas fa-chevron-right ml-2 text-[10px] group-hover:translate-x-1 transition-transform"></i>
+            </a>
+            <a href="{{ url_for('oldboys_timeline.index') }}" class="px-12 py-5 border border-white/30 text-white rounded-sm font-black uppercase tracking-widest hover:bg-white/10 transition-all backdrop-blur-md hover-gold-grow">
+                School History
+            </a>
+        </div>
+
+        <!-- Quick Stats -->
+        <div class="flex justify-center gap-16 text-white/80 border-t border-white/10 pt-12 max-w-2xl mx-auto">
+            {% set stats = get_stats() %}
+            <div class="text-center">
+                <span class="block text-4xl font-black text-primary mb-2 font-heading">{{ stats.alumni_count }}+</span>
+                <span class="text-[10px] font-bold uppercase tracking-[0.3em] font-sans">Registered Alumni</span>
+            </div>
+            <div class="text-center">
+                <span class="block text-4xl font-black text-primary mb-2 font-heading">100+</span>
+                <span class="text-[10px] font-bold uppercase tracking-[0.3em] font-sans">Hafidh-ul-Qur'an</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Simple Transition to Parchment -->
+    <div class="absolute bottom-0 left-0 w-full h-12 bg-parchment/10 backdrop-blur-sm border-t border-primary/20 z-20"></div>
+</section>
+
+<!-- Core Features Grid -->
+<section class="py-32 bg-parchment relative bg-pattern-khatam">
+    <div class="max-w-7xl mx-auto px-4">
+        <div class="text-center mb-28">
+            <span class="text-primary text-[10px] font-black uppercase tracking-[0.4em] mb-4 block font-sans">Service • Community • Faith</span>
+            <h2 class="text-5xl md:text-6xl font-black text-secondary tracking-tight uppercase font-heading heading-underline">The Heart of Our Community</h2>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+            <!-- Alumni Map Card -->
+            <div class="bg-white p-10 shadow-sm border border-primary/10 relative card-elevate manuscript-frame rounded-sm flex flex-col">
+                <div class="w-14 h-14 bg-secondary text-primary flex items-center justify-center text-xl mb-8 manuscript-frame rounded-sm mx-auto">
+                    <i class="fas fa-map-marked-alt"></i>
+                </div>
+                <h3 class="text-xl font-black text-secondary uppercase mb-4 font-heading text-center">Where Are They Now?</h3>
+                <p class="text-slate-600 font-amiri text-base leading-relaxed mb-8 italic text-center flex-1">
+                    Explore our global network of graduates. See where life has taken our brothers across the world.
+                </p>
+                <div class="text-center mt-auto">
+                    <a href="{{ url_for('oldboys_alumni.index') }}" class="inline-flex items-center gap-3 text-[10px] font-black text-primary uppercase tracking-[0.3em] hover-gold-grow">
+                        Explore Map ✧
+                    </a>
+                </div>
+            </div>
+
+            <!-- Timeline Card -->
+            <div class="bg-white p-10 shadow-sm border border-primary/10 relative card-elevate manuscript-frame rounded-sm flex flex-col">
+                <div class="w-14 h-14 bg-secondary text-primary flex items-center justify-center text-xl mb-8 manuscript-frame rounded-sm mx-auto">
+                    <i class="fas fa-history"></i>
+                </div>
+                <h3 class="text-xl font-black text-secondary uppercase mb-4 font-heading text-center">School Timeline</h3>
+                <p class="text-slate-600 font-amiri text-base leading-relaxed mb-8 italic text-center flex-1">
+                    Travel through time from our founding in 1997. Relive the milestones that shaped our institution.
+                </p>
+                <div class="text-center mt-auto">
+                    <a href="{{ url_for('oldboys_timeline.index') }}" class="inline-flex items-center gap-3 text-[10px] font-black text-primary uppercase tracking-[0.3em] hover-gold-grow">
+                        View Milestones ✧
+                    </a>
+                </div>
+            </div>
+
+            <!-- Teachers Card -->
+            <div class="bg-white p-10 shadow-sm border border-primary/10 relative card-elevate manuscript-frame rounded-sm flex flex-col">
+                <div class="w-14 h-14 bg-secondary text-primary flex items-center justify-center text-xl mb-8 manuscript-frame rounded-sm mx-auto">
+                    <i class="fas fa-chalkboard-teacher"></i>
+                </div>
+                <h3 class="text-xl font-black text-secondary uppercase mb-4 font-heading text-center">Teachers' Tribute</h3>
+                <p class="text-slate-600 font-amiri text-base leading-relaxed mb-8 italic text-center flex-1">
+                    Honoring those who dedicated their lives to our education. Leave a message for your favorite Ustadh.
+                </p>
+                <div class="text-center mt-auto">
+                    <a href="{{ url_for('oldboys_teachers.index') }}" class="inline-flex items-center gap-3 text-[10px] font-black text-primary uppercase tracking-[0.3em] hover-gold-grow">
+                        Leave a Tribute ✧
+                    </a>
+                </div>
+            </div>
+
+            <!-- Student Support Card -->
+            <div class="bg-white p-10 shadow-sm border border-primary/10 relative card-elevate manuscript-frame rounded-sm flex flex-col">
+                <div class="w-14 h-14 bg-secondary text-primary flex items-center justify-center text-xl mb-8 manuscript-frame rounded-sm mx-auto">
+                    <i class="fas fa-award"></i>
+                </div>
+                <h3 class="text-xl font-black text-secondary uppercase mb-4 font-heading text-center">Student Support</h3>
+                <p class="text-slate-600 font-amiri text-base leading-relaxed mb-8 italic text-center flex-1">
+                    Empowering our brightest minds through scholarships, elite mentorship, and specialized research grants.
+                </p>
+                <div class="text-center mt-auto">
+                    <a href="#" class="inline-flex items-center gap-3 text-[10px] font-black text-primary uppercase tracking-[0.3em] hover-gold-grow">
+                        Learn More ✧
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Section Divider -->
+<div class="max-w-2xl mx-auto">
+    <div class="divider-islamic"></div>
+</div>
+
+<!-- Recent Updates using manuscript-frame -->
+<section class="py-32 bg-secondary text-white relative overflow-hidden bg-pattern-girih">
+    <div class="absolute inset-0 bg-secondary/90"></div>
+    <div class="max-w-7xl mx-auto px-4 relative z-10">
+        <div class="flex flex-col md:flex-row justify-between items-center md:items-end mb-20 gap-8">
+            <div class="text-center md:text-left">
+                <h2 class="text-5xl font-black uppercase tracking-tight font-heading">Recent <span class="text-primary italic heading-underline">Updates</span></h2>
+                <p class="text-primary/60 text-[10px] font-bold uppercase tracking-[0.4em] mt-6 font-sans italic">Latest news from the alumni office</p>
+            </div>
+            <a href="/news" class="px-8 py-3 border border-primary/30 text-primary text-[10px] font-black uppercase tracking-[0.3em] hover:bg-primary hover:text-secondary transition-all manuscript-frame">View All News</a>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+            {% for news in get_content('News', limit=4) %}
+            <div class="group cursor-pointer border-l border-primary/20 pl-6 py-4 hover:border-primary transition-colors">
+                <div class="space-y-4">
+                    <span class="text-primary text-[8px] font-black uppercase tracking-[0.4em] block italic">Announcement • {{ current_year }}</span>
+                    <h4 class="text-2xl font-bold font-heading group-hover:text-primary transition-colors leading-tight">{{ news.data.title }}</h4>
+                    <p class="text-slate-400 text-sm font-amiri leading-relaxed line-clamp-4 opacity-80 italic">{{ news.data.excerpt }}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Final Call to Action -->
+<section class="py-40 bg-parchment relative bg-pattern-hexagon">
+    <div class="max-w-4xl mx-auto px-4 text-center">
+        <div class="manuscript-frame p-16 relative manuscript-corner">
+            <div class="absolute -top-6 left-1/2 -translate-x-1/2 bg-parchment px-8 py-2 text-primary text-2xl">✧</div>
+            <h2 class="text-5xl font-black text-secondary uppercase mb-8 font-heading">Stay Connected</h2>
+            <p class="text-slate-600 font-amiri text-xl leading-relaxed mb-12 italic">
+                Our community is only as strong as its members. Join our portal to update your details and reconnect with old friends.
+            </p>
+            <div class="flex justify-center">
+                <a href="{{ url_for('shopyo_auth.register') }}" class="px-16 py-5 bg-secondary text-primary rounded-sm font-black uppercase tracking-widest hover:bg-primary hover:text-secondary transition-all shadow-xl manuscript-frame font-sans">
+                    Join the Portal
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+

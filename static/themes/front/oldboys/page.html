@@ -1,0 +1,51 @@
+{% extends 'oldboys/base.html' %}
+
+{% block title %}{{ page.title }}{% endblock %}
+
+{% block body %}
+<article class="bg-parchment min-h-screen relative bg-pattern-hexagon overflow-hidden">
+    
+    <!-- Page Header with Arch Motif -->
+    <header class="bg-secondary py-32 relative overflow-hidden bg-pattern-girih border-b-2 border-primary/30">
+        <div class="absolute inset-0 bg-secondary/80"></div>
+        <div class="max-w-5xl mx-auto px-4 relative text-center space-y-8 z-10">
+            <h1 class="text-6xl md:text-8xl font-black text-white uppercase tracking-tighter leading-none font-heading heading-underline pb-6">{{ page.title }}</h1>
+            <div class="mt-4 flex items-center justify-center gap-4 text-primary font-sans italic">
+                <span class="text-xl">✧</span>
+                <span class="text-[10px] font-black uppercase tracking-[0.5em]">Knowledge & Wisdom</span>
+                <span class="text-xl">✧</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Page Content -->
+    <div class="max-w-5xl mx-auto px-4 py-24 relative z-10">
+        <div class="relative group">
+            <!-- Decorative Icon Button -->
+            <div class="absolute -top-12 left-1/2 -translate-x-1/2 w-24 h-24 bg-secondary border-2 border-primary/30 flex items-center justify-center text-primary text-3xl shadow-2xl transition-all duration-700 manuscript-frame z-20">
+                <i class="fas fa-scroll"></i>
+            </div>
+
+            <div class="bg-white/90 backdrop-blur-sm p-12 md:p-24 shadow-2xl border border-primary/10 relative overflow-hidden manuscript-frame inherit-radius">
+                <!-- Inner Geometric Pattern -->
+                <div class="absolute inset-0 opacity-[0.02] pointer-events-none bg-pattern-khatam"></div>
+                
+                <div class="prose prose-slate prose-xl max-w-none font-amiri leading-relaxed text-slate-700 relative z-10 italic">
+                    {{ page.get_content() | safe }}
+                </div>
+
+                <!-- Footer Geometric Accent -->
+                <div class="mt-20 pt-12 border-t border-primary/10 flex justify-center items-center gap-6">
+                    <span class="text-primary/20 text-xs">✧</span>
+                    <div class="flex gap-4">
+                        <span class="w-1.5 h-1.5 rounded-full bg-primary/20"></span>
+                        <span class="w-1.5 h-1.5 rounded-full bg-primary/40"></span>
+                        <span class="w-1.5 h-1.5 rounded-full bg-primary/20"></span>
+                    </div>
+                    <span class="text-primary/20 text-xs">✧</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</article>
+{% endblock %}
