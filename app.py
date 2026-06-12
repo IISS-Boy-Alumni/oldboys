@@ -27,6 +27,9 @@ import click
 
 import sqlalchemy
 
+from dotenv import load_dotenv
+
+load_dotenv()
 
 base_path = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, base_path)
@@ -44,10 +47,6 @@ from shopyo_settings.models import Settings
 from shopyo_settings.helpers import set_setting as set_value
 from init import db
 
-
-from dotenv import load_dotenv
-
-load_dotenv()
 
 def create_app(config_name="development"):
 
@@ -424,24 +423,18 @@ def inject_global_vars(app, global_template_variables):
 def sync_keyvalue_envvar(app):
     with app.app_context():
         try:
-            set_value(
-                'ACTIVE_FRONT_THEME',os.environ.get('ACTIVE_FRONT_THEME', 'editorial')
-            )
-            set_value(
-                'ACTIVE_BACK_THEME',os.environ.get('ACTIVE_BACK_THEME', 'sneat')
-            )
-            set_value(
-                'SITE_TITLE',os.environ.get('SITE_TITLE', 'Site Info')
-            )
-            set_value(
-                'SITE_DESCRIPTION',os.environ.get('SITE_DESCRIPTION', 'Site Description')
-            )
-            set_value(
-                'APP_NAME',os.environ.get('APP_NAME', 'Default App Name')
-            )
-            set_value(
-                'ACTIVE_ICONSET',os.environ.get('ACTIVE_ICONSET', 'boxicons')
-            )
+            from shopyo_settings.models import Settings
+            defaults = {
+                'ACTIVE_FRONT_THEME': ('ACTIVE_FRONT_THEME', 'oldboys'),
+                'ACTIVE_BACK_THEME': ('ACTIVE_BACK_THEME', 'sneat'),
+                'SITE_TITLE': ('SITE_TITLE', 'Site Info'),
+                'SITE_DESCRIPTION': ('SITE_DESCRIPTION', 'Site Description'),
+                'APP_NAME': ('APP_NAME', 'Default App Name'),
+                'ACTIVE_ICONSET': ('ACTIVE_ICONSET', 'boxicons'),
+            }
+            for key, (env_key, default) in defaults.items():
+                if not Settings.query.filter_by(setting=key).first():
+                    set_value(key, os.environ.get(env_key, default))
         except sqlalchemy.exc.OperationalError as e: # on shopyo initialise command
             if os.environ.get('FLASK_DEBUG', False):
                 print(e)
